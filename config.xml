@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget android-versionCode="1" id="com.test.mobi" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Ebranch</name>
-    <description>Ebranch mobile app</description>
+    <name>HappenStance</name>
+    <description>HappenStance app</description>
     <author email="patel.kalpeshbeit2010@gmail.com" href="http://www.jexcore.com">Jexcore</author>
     <content src="index.html" />
     <access origin="*" />
