@@ -195,7 +195,7 @@ angular.module('app.controllers', [])
 				$scope.showLoading();
 				//alert($scope.user.email+$scope.user.password);
 				$rootScope.service.post('login', $scope.user, function (res) {
-					//$scope.hideLoading();
+					$scope.hideLoading();
 				
 					if (res.status==1) {
 						
