@@ -78,9 +78,12 @@ img {
 
 
 /*css by rajesh*/
-
-.list .icon{
-    //position: absolute;
+.bar-light .button
+{
+	color:#fff;
+}
+.form-bg .item-input .icon{
+    position: absolute;
     /*top: 12px;*/
 }
 .inputcss{

@@ -3,7 +3,7 @@
 window.Config = {
     isRelease: true,
     debug: true,
-    baseUrl: 'http://pr.veba.co/~shubantech/happenstance',
+    baseUrl: 'http://pr.veba.co/~shubantech/happenstance/',
 
     getRememberme: function () {
         return localStorage['rememberme'] || true;

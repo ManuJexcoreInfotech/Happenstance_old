@@ -21,14 +21,14 @@
                 </label>
                 <span ng-message class="warning-message-normal" ng-show="postForm.password.$invalid && postForm.password.$dirty">Required</span>
 				
-                <div class="padding text-right"><a	href="#app/forgot" ng-click="forgot()">Forgot Password ?</a></div>
+                <div class="padding text-right"><a menu-close-keep-history	href="#app/forgotPwd" >Forgot Password ?</a></div>
                 <div class="padding">
                     <button type="submit"  class="button button-block button-{{appColor}}">
                         SIGN IN
                     </button>
                 </div>
                 <div class="padding text-center">Don't have an account ?</div>
-                <div class="padding text-center"><a href="#app/register" ng-click="signup()">SIGN UP TODAY</a></div>
+                <div class="padding text-center"><a href="#app/register" menu-close-keep-history >SIGN UP TODAY</a></div>
             </form>
         </div>
     </ion-content>

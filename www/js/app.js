@@ -117,7 +117,7 @@ angular.module('app', [
                         url: '/register',
                         views: {
                             'menuContent': {
-                                templateUrl: 'templates/register.html',
+                                templateUrl: 'templates/templates/registration.html',
                                 controller: 'registerCtrl'
                             }
                         }
@@ -173,7 +173,7 @@ angular.module('app', [
                         url: '/forgotPwd',
                         views: {
                             'menuContent': {
-                                templateUrl: 'templates/forgotPwd.html',
+                                templateUrl: 'templates/templates/forgotPwd.html',
                                 controller: 'forgotPwdCtrl'
                             }
                         }
