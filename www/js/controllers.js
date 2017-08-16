@@ -16,7 +16,7 @@ angular.module('app.controllers', [])
         // Loading
         $scope.showLoading = function () {
             $ionicLoading.show({
-                template: ''
+                template: '<ion-spinner icon="spiral"></ion-spinner>'
             });
         };
         $scope.hideLoading = function () {
@@ -141,13 +141,13 @@ angular.module('app.controllers', [])
 
         $scope.showExit = function () {
             $ionicPopup.confirm({
-                title: $scope.translations.confirm,
-                template: $scope.translations.exit_tip,
+                title:"Confirm",
+                template: "",
                 okType: 'button-assertive',
                 buttons: [
-                    {text: $scope.translations.cancel},
+                    {text: "Cancel"},
                     {
-                        text: $scope.translations.ok,
+                        text: "ok",
                         onTap: function (e) {
                             e.preventDefault();
                             navigator.app.exitApp();
@@ -192,11 +192,13 @@ angular.module('app.controllers', [])
 		
 		$scope.submitForm = function(isValid) {
 			if (isValid) {
+				$scope.showLoading();
 				//alert($scope.user.email+$scope.user.password);
 				$rootScope.service.post('login', $scope.user, function (res) {
-					
+					//$scope.hideLoading();
 				
 					if (res.status==1) {
+						
 						alert(res.message);
 						$scope.user = res;
 						setStorage('user_id',res.result.u_id);
@@ -430,30 +432,33 @@ angular.module('app.controllers', [])
 
     // 忘记密�?
     .controller('forgotPwdCtrl', function ($scope, $rootScope, $timeout, $state) {
-        $scope.pwdData = {};;
+        $scope.user = {};;
         $scope.hideLogin;
 
         $scope.myBack = function () {
             $state.go('app.home');
             $scope.showLogin();
         };
-
-        $scope.getPwd = function () {
-            if (!$scope.pwdData.email) {
-                alert($scope.translations.enter_email);
-                return;
-            }
-            $scope.showLoading();
-            $rootScope.service.get('forgotpwd', $scope.pwdData, function (res) {
-                $scope.hideLoading();
-                if (res.code == '0x0000') {
-                    alert($scope.translations.success+'\n\r'+ res.message);
-                    popupForgotPwd.close();
-                    return;
-                }
-                alert($scope.translations.error_code + res.code + '\n\r' + res.message);
-            });
-        };
+		$scope.submitForm = function(isValid) {
+			if (isValid) {
+				$scope.showLoading();
+				
+				$rootScope.service.post('forgotPassword', $scope.user, function (res) {
+					$scope.hideLoading();
+					if (res.status==1) {
+						alert(res.message);
+						$state.go('app.login');
+					}
+					else
+					{
+						alert(res.message);
+					}
+					
+				});
+				
+			}
+		}
+       
     })
 
     // 设置

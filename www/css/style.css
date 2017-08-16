@@ -82,6 +82,7 @@ img {
 {
 	color:#fff;
 }
+.loading-container .loading{background-color:#fff;}
 .form-bg .item-input .icon{
     position: absolute;
     /*top: 12px;*/
