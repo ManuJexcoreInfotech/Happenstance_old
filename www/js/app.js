@@ -47,7 +47,7 @@ angular.module('app', [
 		  "senderID": "senderID",
 		})
         .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $translateProvider) {
-            $ionicConfigProvider.backButton.text('Back').icon('ion-chevron-left');
+            $ionicConfigProvider.backButton.text('').icon('ion-chevron-left');
             $ionicConfigProvider.scrolling.jsScrolling(false);
             $ionicConfigProvider.tabs.position('bottom');
             $ionicConfigProvider.form.checkbox('square');
@@ -168,16 +168,7 @@ angular.module('app', [
                             }
                         }
                     })
-                    .state('app.contact', {
-                        url: '/contact',
-                        views: {
-                            'menuContent': {
-                                templateUrl: 'templates/contact.html',
-                                controller: 'contactCtrl'
-                            }
-                        }
-                    })
-
+                    
                     .state('app.forgotPwd', {
                         url: '/forgotPwd',
                         views: {
@@ -223,20 +214,80 @@ angular.module('app', [
                             }
                         }
                     })
-                    .state('app.cart', {
-                        url: '/cart',
-                        views: {
-                            'menuContent': {
-                                templateUrl: 'templates/cart.html',
-                                controller: 'cartCtrl'
-                            }
-                        }
-                    })
+                    .state('app.send_invitation', {
+						url: "/send_invitation",
+						cache: false,
+						views: {
+							'menuContent': {
+								templateUrl: "templates/templates/send_invitation.html",
+								controller: "HomeCtrl"
+							}
+						}
+					})
+					.state('app.invitation', {
+						url: "/invitation",
+						cache: false,
+						views: {
+							'menuContent': {
+								templateUrl: "templates/templates/receive_invitation.html",
+								controller: "HomeCtrl"
+							}
+						}
+					})
+					.state('app.send_message', {
+						url: "/send_message",
+						cache: false,
+						views: {
+							'menuContent': {
+								templateUrl: "templates/templates/send_message.html",
+								controller: "HomeCtrl"
+							}
+						}
+					})
+					.state('app.nearbycontacts', {
+						url: "/nearbycontacts",
+						cache: false,
+						views: {
+							'menuContent': {
+								templateUrl: "templates/templates/nearbycontacts.html",
+								controller: "HomeCtrl"
+							}
+						}
+					})
+					.state('app.messages', {
+						url: "/messages",
+						cache: false,
+						views: {
+							'menuContent': {
+								templateUrl: "templates/templates/messages.html",
+								controller: "HomeCtrl"
+							}
+						}
+					})
+					.state('app.reply_message', {
+						url: "/reply_message",
+						cache: false,
+						views: {
+							'menuContent': {
+								templateUrl: "templates/templates/reply_message.html",
+								controller: "HomeCtrl"
+							}
+						}
+					})
+					 .state('app.contact', {
+					  url: "/contact",
+					  views: {
+						'menuContent' :{
+							templateUrl: "templates/templates/contacts.html",
+							controller: "ContactCtrl"
+						}
+					  }
+					})
                     .state('app.frame', {
                         url: '/frame/:page',
                         views: {
                             'menuContent': {
-                                templateUrl: 'templates/frame.html',
+                                templateUrl: 'templates/templates/frame.html',
                                 controller: 'FrameCtrl'
                             }
                         }
