@@ -1,5 +1,9 @@
 // Ionic Starter App
 // 'app' is the name of this angular module (also set in a <body> attribute in index.html)
+
+
+
+
 angular.module('app', [
     'ionic', 'ngCordova', 'pascalprecht.translate',
     'app.controllers', 'app.filters', 'ionicLazyLoad','slickCarousel'
@@ -18,7 +22,30 @@ angular.module('app', [
             });
             Service($rootScope, $http, $ionicPopup);
         })
-
+		.constant("Config", {
+		  "WebUrl": "http://localhost/code/happenstance/",
+		  "AppName" : "Happenspances",
+		  "AndroidAppUrl" : "https://play.google.com/store/apps/details?id=com.myspecialgames.advanced2048game",
+		  "ErrorMessage" : "End of results"
+		})
+		// config contact
+		.constant("ConfigContact", {
+		  "EmailId": "weblogtemplatesnet@gmail.com",
+		  "ContactSubject": "Contact"
+		})
+		// config admon
+		.constant("ConfigAdmob", {
+		  "interstitial": "ca-app-pub-3940256099942544/6300978111",
+		  "banner": "ca-app-pub-3940256099942544/1033173712"
+		})
+		// color variations
+		.constant("Color", {
+		  "AppColor": "light", //light, stable, positive, calm, balanced, energized, assertive, royal, dark
+		})
+		// push notification
+		.constant("PushNoti", {
+		  "senderID": "senderID",
+		})
         .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $translateProvider) {
             $ionicConfigProvider.backButton.text('Back').icon('ion-chevron-left');
             $ionicConfigProvider.scrolling.jsScrolling(false);
@@ -216,15 +243,9 @@ angular.module('app', [
                     });
 
             // if none of the above states are matched, use this as the fallback
-            $urlRouterProvider.otherwise('/app/home');
+            $urlRouterProvider.otherwise('/app/login');
 
-$translateProvider.translations('ar_SA', ar_SA);
-        $translateProvider.translations('en_US', en_US);
-  if(Config.getLocale()=='arabic'){
-         $translateProvider.preferredLanguage('ar_SA');
-  }else {
-    $translateProvider.preferredLanguage('en_US');
-  }
+	
         })
 
         .directive('onFinishRender', function ($timeout) {

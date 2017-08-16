@@ -6,17 +6,11 @@ angular.module('app.controllers', [])
                                      $ionicTabsDelegate, $ionicLoading,
                                      $ionicPopup, $timeout, $state,
                                      $ionicSideMenuDelegate, $translate,
-                                     $ionicPlatform, $ionicHistory) {
+                                     $ionicPlatform, $ionicHistory,Color) {
 
-        $translate(Object.keys(ar_SA)).then(function (translations) {
-            $scope.translations = translations;
-            $rootScope.translations = $scope.translations;
-        });
+        
             $scope.dynamic_menus = {};
-            $rootScope.service.get('menus', {}, function (results) {
-                $scope.dynamic_menus = results;
-                console.log($scope.dynamic_menus);
-            });
+        $scope.appColor = Color.AppColor;
         $scope.isIOS = ionic.Platform.isIPad() ||  ionic.Platform.isIOS();
 
         // Loading
@@ -47,13 +41,13 @@ angular.module('app.controllers', [])
 
         // 登录
        $scope.showLogin = function () {
-            $scope.loginData = {};
+            $scope.user = {};
             if (Config.getRememberme()) {
-                $scope.loginData.rememberme = true;
-                $scope.loginData.username = Config.getUsername();
-                $scope.loginData.password = Config.getPassword();
+                $scope.user.rememberme = true;
+                $scope.user.username = Config.getUsername();
+                $scope.user.password = Config.getPassword();
             }
-
+			
             var popupLogin = $ionicPopup.show({
                 templateUrl: 'templates/login.html',
                 title: $scope.translations.login_title,
@@ -121,19 +115,19 @@ angular.module('app.controllers', [])
             }
         };
 
-        // 获�?�用户信�?�
+       
         $scope.getUser = function () {
-             $scope.sessionData = {};
-               $scope.sessionData.user_id = getStorage('user_id');
-            $rootScope.service.get('user',$scope.sessionData, function (user) {
-                $scope.user = typeof user === 'object' ? user : null;
+            $scope.sessionData = {};
+            $scope.sessionData.user_id = getStorage('user_id');
+            $rootScope.service.post('getUser',$scope.sessionData, function (user) {
+                $scope.user = typeof user.result === 'object' ? user.result : null;
             });
         };
         $scope.getUser();
         if (!$scope.user) {
             $scope.autoLogin();
         };
-        // 退出登录
+       
         $scope.doLogout = function () {
             $scope.showLoading();
             $rootScope.service.get('logout', $scope.getUser);
@@ -143,7 +137,6 @@ angular.module('app.controllers', [])
             $timeout($scope.hideLoading(), 1000);
         };
 
-        // 退出应用
         $scope.showExit = function () {
             $ionicPopup.confirm({
                 title: $scope.translations.confirm,
@@ -187,15 +180,41 @@ angular.module('app.controllers', [])
     // 注册
     
     .controller('loginCtrl', function ($scope, $rootScope,$ionicPopup, $timeout, $state) {
-        $scope.loginData = {};
+        $scope.user = {};
             if (Config.getRememberme()) {
-                $scope.loginData.rememberme = true;
-                $scope.loginData.username = Config.getUsername();
-                $scope.loginData.password = Config.getPassword();
+                $scope.user.rememberme = true;
+                $scope.user.username = Config.getUsername();
+                $scope.user.password = Config.getPassword();
             }
-        //end �?�?
+		$scope.submitForm = function(isValid) {
+			if (isValid) {
+				//alert($scope.user.email+$scope.user.password);
+				$rootScope.service.post('login', $scope.user, function (res) {
+					
+				
+					if (res.status==1) {
+						
+						$scope.user = res;
+						setStorage('user_id',res.result.u_id);
+						Config.setUsername($scope.user.username);
+						Config.setPassword($scope.user.password);
+						
+						$scope.getUser();
+						$state.go('app.home');
+						return;
+					}
+					else
+					{
+						showAlert('Error',res.message);
+					}
+					
+					
+				});
+				
+			}
+		}
         $scope.doLogin = function () {
-             if (!$scope.loginData.username || !$scope.loginData.password) {
+             if (!$scope.user.username || !$scope.loginData.password) {
                                 return;
                             }
             $scope.showLoading();
@@ -727,105 +746,7 @@ angular.module('app.controllers', [])
         $scope.hasInit = false;
         $scope.loadOver = false;
 
-        var getList = function (func, callback) {
-            if (func === 'load') {
-                $scope.listPge++;
-            } else {
-                $scope.listPge = 1;
-            }
-            var params = {
-                limit: 5,
-                page: $scope.listPge,
-                cmd: $stateParams.cmd || 'new'
-            };
-            $scope.showLoading();
-            $rootScope.service.get('products', params, function (lists_new) {
-				$scope.hasInit = true;
-                $scope.lists_new = lists_new;
-            });
-            $scope.hideLoading();
-        };
-        getList('refresh');
-        //$timeout(callAtTimeout1, 3000);
-        function callAtTimeout1(){
-            $("#lists_new").slick({infinite:true,slidesToShow:2,slidesToScroll:1});
-        }
-		
-		var getList2 = function (func, callback) {
-            if (func === 'load') {
-                $scope.listPge++;
-            } else {
-                $scope.listPge = 1;
-            }
-            var params = {
-                limit: 5,
-                page: $scope.listPge,
-                cmd: $stateParams.cmd || 'best_seller'
-            };
-            $scope.showLoading();
-            $rootScope.service.get('products', params, function (lists_best) {
-				$scope.hasInit = true;
-                $scope.lists_best = lists_best;
-            });
-            $scope.hideLoading();
-        };
-        getList2('refresh');
-        $timeout(callAtTimeout2, 7000);
-        function callAtTimeout2(){
-            $(".slick-container").slick({infinite:true,slidesToShow:2,slidesToScroll:1});
-        }
-		
-		var getList3 = function (func, callback) {
-            if (func === 'load') {
-                $scope.listPge++;
-            } else {
-                $scope.listPge = 1;
-            }
-            var params = {
-                limit: 5,
-                page: $scope.listPge,
-                cmd: $stateParams.cmd || 'daily_sale'
-            };
-            $scope.showLoading();
-            $rootScope.service.get('products', params, function (lists_daily) {
-				$scope.hasInit = true;
-                $scope.lists_daily = lists_daily;
-            });
-            $scope.hideLoading();
-        };
-        getList3('refresh');
-        //$timeout(callAtTimeout3, 3000);
-        function callAtTimeout3(){
-            $("#lists_daily").slick({infinite:true,slidesToShow:2,slidesToScroll:1});
-        }
-		
-		var getList4 = function (func, callback) {
-            if (func === 'load') {
-                $scope.listPge++;
-            } else {
-                $scope.listPge = 1;
-            }
-            var params = {
-                limit: 5,
-                page: $scope.listPge,
-                cmd: $stateParams.cmd || 'catalog'
-            };
-            $scope.showLoading();
-            $rootScope.service.get('products', params, function (lists_catalog) {
-				$scope.hasInit = true;
-                $scope.lists_catalog = lists_catalog;
-            });
-            $scope.hideLoading();
-        };
-        getList4('refresh');
-       // $timeout(callAtTimeout4, 3000);
-        function callAtTimeout4(){
-            $("#lists_catalog").slick({infinite:true,slidesToShow:2,slidesToScroll:1});
-        }
-		
-		//daily_sale
-		/*end khunt*/
-        //快速�?�索
+      
         $scope.onSearch = function () {
             if (!$scope.searchData.text) {
                 return;

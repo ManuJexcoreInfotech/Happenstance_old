@@ -1,68 +1,35 @@
 <!--<ion-view view-title="{{'new_customer' | translate}}">-->
-
-
-<ion-content overflow-scroll="false" style=" background:#0188cc">
-    <div class="list padding">
-     <!-- <h3>&nbsp;  </h3>-->
-        
-        
-          <p class="logo-set set-center"> <img src="img/logo-1.png" alt="logo" width="120" height=""/></p>
-    
-    
-    <div class="fb-login-set space2">
-        
-        
-            
-           
-            <p class="set-center"> <a href="#"><img src="img/fb-login.png" alt="logo" width="" height="40"/> </a></p>
-            
-            
-             <div class="no-span seprator set-center">
-            <h4>OR USE</h4>
+<ion-view>
+<ion-nav-title>
+        <img class="title-image" src="img/logo.png" />
+    </ion-nav-title>
+    <ion-content padding="10" class="bg-color">
+        <div class="list">
+            <div class="padding text-center">
+                <h4 class="color-white">SIGN IN</h4>
             </div>
-            
-        
-        </div>
-        
-
-        <form ng-submit="doLogin()" class="login">
-             <div class="inputset">   <label class="item item-input">
-               <!-- <span class="input-label">{{'email_or_mobile' | translate}}</span>-->
-            <input type="text" autofocus placeholder="{{'email_or_mobile' | translate}}" ng-model="loginData.username">
-                <span class="icon"><i class="fa fa-envelope"></i></span></div>
-            </label>
-         <div class="inputset">   <label class="item item-input">
-             <!--   <span class="input-label">{{'password' | translate}}</span>-->
-                <input type="password" placeholder="{{'password' | translate}}" ng-model="loginData.password"><span class="icon"><i class="fa fa-lock"></i></span></div>
-            </label>
-            <li class="item item-checkbox">
-              <label class="checkbox">
-                    <input type="checkbox" ng-model="loginData.rememberme">
+            <form method="post" class="form-bg" ng-submit="submitForm(postForm.$valid)" name="postForm" novalidate>
+                <label class="item item-input input-item-css">
+                    <input class="inputcss" required type="text" ng-model="user.username" name="username" placeholder="Userid" value="">
+                    <span class="icon"><i class="fa fa-user"></i></span>
                 </label>
-                {{'remember_me' | translate}}
-            </li>
-                <button class="button button-full button-assertive"
-                        type="submit" > {{'login_submit' | translate}}
-                </button>
-
-            <div class="list">
-                <div class="row set-center">
-                    <div class="forgot-pass space1">
-                        <a ng-click="hideLogin()"  menu-toggle="left" href="#app/forgotPwd">{{'forgot_password' | translate}}</a>
-                    </div>
-                    
+                <span ng-message class="warning-message-normal" ng-show="postForm.email.$error.required && postForm.email.$dirty">Required</span>
+                <!--<span ng-message class="warning-message-normal" ng-show="postForm.email.$error.email && postForm.email.$dirty">This is not a valid email.</span>-->
+                <label class="item item-input input-item-css">
+                    <input class="inputcss" required ng-model="user.password" name="password" type="password" placeholder="Password">
+                    <span class="icon"><i class="fa fa-lock"></i></span>
+                </label>
+                <span ng-message class="warning-message-normal" ng-show="postForm.password.$invalid && postForm.password.$dirty">Required</span>
+				
+                <div class="padding text-right"><a	href="#app/forgot" ng-click="forgot()">Forgot Password ?</a></div>
+                <div class="padding">
+                    <button type="submit"  class="button button-block button-{{appColor}}">
+                        SIGN IN
+                    </button>
                 </div>
-                 <div class="row set-center"> 
-                 	 <p class="set-center text1 space1">Don't have an account?</p>
-                 </div>
-                 <div class="row set-center"> 
-                 <div class="new-acc space1">
-                        <a ng-click="hideLogin()"   href="#app/register">
-                            {{'new_account' | translate}}
-                        </a>
-                    </div></div>
-            </div>
-        </form>
-    </div>
-</ion-content>
+                <div class="padding text-center">Don't have an account ?</div>
+                <div class="padding text-center"><a href="#app/register" ng-click="signup()">SIGN UP TODAY</a></div>
+            </form>
+        </div>
+    </ion-content>
 </ion-view>

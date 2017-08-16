@@ -1,29 +1,13 @@
 function Service($rootScope, $http, $ionicPopup) {
 
-    var api = {
-        website: '/restconnect/store/websiteinfo',
-        store: '/restconnect/store/storeinfo',
-        getStaticBlock: '/restconnect/index/getstaticblock',
-        getBannerBlock: '/restconnect/index/getbannerblock',
-        user: '/restconnect/customer/statusData',
-        forgotpwd: '/restconnect/customer/forgotpwd',
-        menus: '/restconnect/?cmd=menu',
-        products: '/restconnect/',
-        login: '/restconnect/customer/login',
-        logout: '/restconnect/customer/logout',
-        register: '/restconnect/customer/register',
-        search: '/restconnect/search',
-        certGet: '/clnews/api/article',
-        searchAdvField: '/restconnect/searchadv/getfield',
-        searchAdv: '/restconnect/searchadv/index',
-        searchAgent: '/storelocator/index/city',
-        productDetail: '/restconnect/products/getproductdetail',
-        productImg: '/restconnect/products/getPicLists',
-        productOption: '/restconnect/products/getcustomoption',
-        cart: '/restconnect/cart/getCartInfo',	//获�?�购物车内容
-        cartGetQty: '/restconnect/cart/getQty',	//
-        cartGetTotal: '/restconnect/cart/getTotal',	//
-        cartAdd: '/restconnect/cart/add'	//直接post到这个接�?�就返回�?�数
+     var api = {
+        website: 'webservice/api/websiteinfo',
+        getUser: 'webservice/api/getUser',
+        forgotPassword: 'webservice/api/forgotPassword',
+        logout: 'webservice/api/logout',
+        login: 'webservice/api/login',
+        register: 'webservice/api/register',
+        
     }, showError = false;
 
     $rootScope.service = {
@@ -34,14 +18,9 @@ function Service($rootScope, $http, $ionicPopup) {
                 success = params;
                 params = null;
             }
-            if(params==null){
-    var params  = {};
-    params['___store'] = Config.getLocale(); 
-   }else{
-    params.___store = Config.getLocale();
-   }
+    
 			console.log(params);
-		//params+='&__store='+ Config.getLocale();
+		
             var url = Config.baseUrl  + api[key] ;
 
             $http.get(url, {
@@ -56,19 +35,11 @@ function Service($rootScope, $http, $ionicPopup) {
                 callback = params;
                 params = null;
             }
-if(params==null){
-    var params  = {};
-    params['___store'] = Config.getLocale(); 
-   }else{
-    params.___store = Config.getLocale();
-   }            
-
+			var userData=[];
+			console.log(params);
+			
             var url = Config.baseUrl+ api[key];
-url+='?___store='+ Config.getLocale();
-            $.post(url, {
-                params: params,
-                timeout: 20000
-            }).then(function (res) {
+			$http.post(url,params).then(function (res) {
                 success(res.data);
             }, handleError(error));
         },

@@ -14,3 +14,4 @@ plugins/
 .settings
 .buildpath
 .project
+/nbproject/private/
