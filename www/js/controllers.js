@@ -130,11 +130,13 @@ angular.module('app.controllers', [])
        
         $scope.doLogout = function () {
             $scope.showLoading();
-            $rootScope.service.get('logout', $scope.getUser);
+            //$rootScope.service.get('logout', $scope.getUser);
             removeStorage('user_id');
             Config.setUsername('');
             Config.setPassword('');
             $timeout($scope.hideLoading(), 1000);
+			$state.go('app.login');
+			return;
         };
 
         $scope.showExit = function () {
@@ -165,14 +167,7 @@ angular.module('app.controllers', [])
 
         // å?–æ?œç´¢é€‰é¡¹
         //text,textarea,date,boolean,multiselect,select,price,media_image,weee
-        $rootScope.service.get('searchAdvField', {}, function (results) {
-            var fields = [];
-
-            for (var key in results) {
-                fields.push(results[key]);
-            }
-            $scope.searchFields = fields;
-        });
+        
     })
 
 
@@ -180,21 +175,27 @@ angular.module('app.controllers', [])
     // æ³¨å†Œ
     
     .controller('loginCtrl', function ($scope, $rootScope,$ionicPopup, $timeout, $state) {
+		var user =0;
+		user  = getStorage('user_id');
+		
         $scope.user = {};
             if (Config.getRememberme()) {
                 $scope.user.rememberme = true;
                 $scope.user.username = Config.getUsername();
                 $scope.user.password = Config.getPassword();
             }
+			if (user!=0 && user != null) {
+                $state.go('app.home');
+            }
 		
 		$scope.submitForm = function(isValid) {
 			if (isValid) {
 				//alert($scope.user.email+$scope.user.password);
 				$rootScope.service.post('login', $scope.user, function (res) {
-					alert(res);
+					
 				
 					if (res.status==1) {
-						
+						alert(res.message);
 						$scope.user = res;
 						setStorage('user_id',res.result.u_id);
 						Config.setUsername($scope.user.username);
@@ -206,7 +207,7 @@ angular.module('app.controllers', [])
 					}
 					else
 					{
-						showAlert('Error',res.message);
+						alert(res.message);
 					}
 					
 					
@@ -214,39 +215,11 @@ angular.module('app.controllers', [])
 				
 			}
 		}
-        $scope.doLogin = function () {
-             if (!$scope.user.username || !$scope.loginData.password) {
-                                return;
-                            }
-            $scope.showLoading();
-            $rootScope.service.get('login', $scope.loginData, function (res) {
-                $scope.hideLoading();
-
-                if (res.code || res.message) {
-                    alert(res.message || res.code);
-                    return;
-                }
-                $scope.user = res;
-                setStorage('user_id',res.id);
-                Config.setRememberme($scope.loginData.rememberme);
-                if ($scope.loginData.rememberme) {
-                    Config.setUsername($scope.loginData.username);
-                    Config.setPassword($scope.loginData.password);
-                }
-                else{
-                    Config.setUsername('');
-                    Config.setPassword('');
-                }
-                $scope.getUser();
-                $state.go('app.home');
-                return;
-               
-            });
-        };
+       
     })
     .controller('womenCtrl', function ($scope, $rootScope,$state,$stateParams) {
         console.log($stateParams);
-//alert(123);
+
     })
     .controller('contactCtrl', function ($scope, $rootScope,$state,$stateParams) {
         //alert($stateParams.name);
@@ -401,7 +374,28 @@ angular.module('app.controllers', [])
                 ]
             });
         };
-        //end éš?ç§?
+		$scope.submitForm = function(isValid) {
+			 $scope.showLoading();
+			
+			if (isValid) {
+				
+				
+				$rootScope.service.post('register', $scope.user, function (res) {
+					 $scope.hideLoading();
+					if (res.status==1) {
+						alert(res.message);
+						$state.go('app.login');
+					}
+					else
+					{
+						alert(res.message);
+					}
+					
+					
+				});
+				
+			}
+		}
         $scope.doRegister = function () {
 /*            if ($scope.registerData.password !== $scope.registerData.confirmation) {
                 alert($scope.translations.need_confirm_pwd );

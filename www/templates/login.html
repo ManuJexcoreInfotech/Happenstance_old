@@ -11,13 +11,13 @@
             <form method="post" class="form-bg" ng-submit="submitForm(postForm.$valid)" name="postForm" novalidate>
                 <label class="item item-input input-item-css">
                     <input class="inputcss" required type="text" ng-model="user.username" name="username" placeholder="Userid" value="">
-                    <span class="icon"><i class="fa fa-user"></i></span>
+                    <span class="icon"><i class="icon ion-ios-person"></i></span>
                 </label>
                 <span ng-message class="warning-message-normal" ng-show="postForm.email.$error.required && postForm.email.$dirty">Required</span>
                 <!--<span ng-message class="warning-message-normal" ng-show="postForm.email.$error.email && postForm.email.$dirty">This is not a valid email.</span>-->
                 <label class="item item-input input-item-css">
                     <input class="inputcss" required ng-model="user.password" name="password" type="password" placeholder="Password">
-                    <span class="icon"><i class="fa fa-lock"></i></span>
+                    <span class="icon"><i class="icon ion-ios-lock"></i></span>
                 </label>
                 <span ng-message class="warning-message-normal" ng-show="postForm.password.$invalid && postForm.password.$dirty">Required</span>
 				
