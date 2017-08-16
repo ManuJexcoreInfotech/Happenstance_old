@@ -186,11 +186,12 @@ angular.module('app.controllers', [])
                 $scope.user.username = Config.getUsername();
                 $scope.user.password = Config.getPassword();
             }
+		alert(1);
 		$scope.submitForm = function(isValid) {
 			if (isValid) {
 				//alert($scope.user.email+$scope.user.password);
 				$rootScope.service.post('login', $scope.user, function (res) {
-					alert(res.status==1);
+					alert(res.status);
 				
 					if (res.status==1) {
 						
