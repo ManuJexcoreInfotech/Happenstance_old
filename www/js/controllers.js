@@ -64,7 +64,7 @@ angular.module('app.controllers', [])
                                 return;
                             }
                             $scope.showLoading();
-                            $rootScope.service.get('login', $scope.loginData, function (res) {
+                            $rootScope.service.post('login', $scope.loginData, function (res) {
                                 $scope.hideLoading();
 
                                 if (res.code || res.message) {
@@ -102,7 +102,7 @@ angular.module('app.controllers', [])
                 $scope.loginData.password = Config.getPassword();
                 $scope.showLoading();
 				console.log($scope.loginData);
-                $rootScope.service.get('login', $scope.loginData, function (res) {
+                $rootScope.service.post('login', $scope.loginData, function (res) {
                     $scope.login_status = true;
                     $scope.hideLoading();
                     if (res.code || res.message) {
@@ -174,7 +174,7 @@ angular.module('app.controllers', [])
 
     // 注册
     
-    .controller('loginCtrl', function ($scope, $rootScope,$ionicPopup, $timeout, $state) {
+    .controller('loginCtrl', function ($scope, $rootScope,$ionicPopup, $timeout, $state,$ionicHistory) {
 		var user =0;
 		user  = getStorage('user_id');
 		
@@ -185,7 +185,9 @@ angular.module('app.controllers', [])
                 $scope.user.password = Config.getPassword();
             }
 			if (user!=0 && user != null) {
+				
                 $state.go('app.home');
+				
             }
 		
 		$scope.submitForm = function(isValid) {
@@ -202,7 +204,9 @@ angular.module('app.controllers', [])
 						Config.setPassword($scope.user.password);
 						
 						$scope.getUser();
+						
 						$state.go('app.home');
+						
 						return;
 					}
 					else
@@ -730,9 +734,19 @@ angular.module('app.controllers', [])
 
     // home中，�?�banner，快速�?�索
     .controller('HomeCtrl', function ($scope, $rootScope, $state, $ionicSlideBoxDelegate,$timeout) {
+		
+		
+		var user =0;
+		user  = getStorage('user_id');
+		if (user==0 ||  user == null) {
+			$state.go('app.login');
+			return;
+			
+		}
+		
         $scope.searchData = {};
 
-      
+		
         
         /*khunt*/
 		$stateParams = '';		

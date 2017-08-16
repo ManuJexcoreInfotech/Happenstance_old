@@ -279,7 +279,7 @@ angular.module('app', [
 					  views: {
 						'menuContent' :{
 							templateUrl: "templates/templates/contacts.html",
-							controller: "ContactCtrl"
+							controller: "contactCtrl"
 						}
 					  }
 					})
@@ -294,7 +294,7 @@ angular.module('app', [
                     });
 
             // if none of the above states are matched, use this as the fallback
-            $urlRouterProvider.otherwise('/app/login');
+            $urlRouterProvider.otherwise('/app/home');
 
 	
         })
