@@ -364,7 +364,7 @@ angular.module('app.controllers', [])
     })
 
     .controller('registerCtrl', function ($scope, $rootScope,$ionicPopup, $timeout, $state) {
-        $scope.registerData = {};
+        $scope.user = {};
 
         
         
