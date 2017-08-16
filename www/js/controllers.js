@@ -190,7 +190,7 @@ angular.module('app.controllers', [])
 			if (isValid) {
 				//alert($scope.user.email+$scope.user.password);
 				$rootScope.service.post('login', $scope.user, function (res) {
-					
+					alert(res.status==1);
 				
 					if (res.status==1) {
 						
