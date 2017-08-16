@@ -40,6 +40,8 @@ function Service($rootScope, $http, $ionicPopup) {
 			
             var url = Config.baseUrl+ api[key];
 			$http.post(url,params).then(function (res) {
+				console.log(res.data);
+				alert(res.data.status);
                 success(res.data);
             }, handleError(error));
         },
