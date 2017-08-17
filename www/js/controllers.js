@@ -230,7 +230,7 @@ angular.module('app.controllers', [])
                 $scope.showLoading();
                 if (isValid) {
 
-
+					$scope.user.u_id=getStorage('user_id');
                     $rootScope.service.post('changepassword', $scope.user, function (res) {
                         $scope.hideLoading();
                         if (res.status == 1) {
