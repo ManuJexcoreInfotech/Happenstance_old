@@ -260,7 +260,7 @@ angular.module('app', [
                         views: {
                             'menuContent': {
                                 templateUrl: "templates/templates/change_password.html",
-                                controller: "HomeCtrl"
+                                controller: "ChangePwdCtrl"
                             }
                         }
                     })

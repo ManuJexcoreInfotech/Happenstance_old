@@ -178,7 +178,7 @@ angular.module('app.controllers', [])
         .controller('loginCtrl', function ($scope, $rootScope, $ionicPopup, $timeout, $state, $ionicHistory) {
             var user = 0;
             user = getStorage('user_id');
-            
+
             $scope.user = {};
             if (Config.getRememberme()) {
                 $scope.user.rememberme = true;
@@ -224,9 +224,26 @@ angular.module('app.controllers', [])
             }
 
         })
-        .controller('womenCtrl', function ($scope, $rootScope, $state, $stateParams) {
-            console.log($stateParams);
+        .controller('ChangePwdCtrl', function ($scope, $rootScope, $state, $stateParams) {
+            $scope.user = {};
+            $scope.submitForm = function (isValid) {
+                $scope.showLoading();
+                if (isValid) {
 
+
+                    $rootScope.service.post('changepassword', $scope.user, function (res) {
+                        $scope.hideLoading();
+                        if (res.status == 1) {
+                            alert(res.message);
+                            $state.go('app.login');
+                        }
+                        else
+                        {
+                            alert(res.message);
+                        }
+                    });
+                }
+            }
         })
         .controller('contactCtrl', function ($scope, $rootScope, $state, $stateParams) {
 
