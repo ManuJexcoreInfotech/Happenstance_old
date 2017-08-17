@@ -235,7 +235,7 @@ angular.module('app.controllers', [])
                         $scope.hideLoading();
                         if (res.status == 1) {
                             alert(res.message);
-                            $state.go('app.login');
+                            $state.go('app.home');
                         }
                         else
                         {
