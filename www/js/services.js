@@ -1,27 +1,26 @@
 function Service($rootScope, $http, $ionicPopup) {
 
-     var api = {
+    var api = {
         website: 'webservice/api/websiteinfo',
         getUser: 'webservice/api/getUser',
         forgotPassword: 'webservice/api/forgotPassword',
         logout: 'webservice/api/logout',
         login: 'webservice/api/login',
         register: 'webservice/api/register',
-        
     }, showError = false;
 
     $rootScope.service = {
         get: function (key, params, success, error) {
-			
+
             if (typeof params === 'function') {
                 error = success;
                 success = params;
                 params = null;
             }
-    
-			console.log(params);
-		
-            var url = Config.baseUrl  + api[key] ;
+
+            console.log(params);
+
+            var url = Config.baseUrl + api[key];
 
             $http.get(url, {
                 params: params,
@@ -35,13 +34,13 @@ function Service($rootScope, $http, $ionicPopup) {
                 callback = params;
                 params = null;
             }
-			var userData=[];
-			console.log(params);
-			
-            var url = Config.baseUrl+ api[key];
-			$http.post(url,params).then(function (res) {
-				console.log(res.data);
-				
+            var userData = [];
+            console.log(params);
+
+            var url = Config.baseUrl + api[key];
+            $http.post(url, params).then(function (res) {
+                console.log(res.data);
+
                 success(res.data);
             }, handleError(error));
         },
@@ -63,24 +62,25 @@ function Service($rootScope, $http, $ionicPopup) {
 
     function handleError(error) {
         return function (err) {
-            if (error) error(err);
+            if (error)
+                error(err);
             if (showError) {
                 return;
             }
             showError = true;
-            alert($rootScope.translations.network_error+'\r\n'+$rootScope.translations.check_network);
+            alert($rootScope.translations.network_error + '\r\n' + $rootScope.translations.check_network);
             /*
-            $ionicPopup.alert({
-                title: $rootScope.translations.network_error,
-                template: $rootScope.translations.check_network,
-                buttons: [{
-                    text: $rootScope.translations.ok,
-                    onTap: function () {
-                        showError = false;
-                    }
-                }]
-            });
-            */
+             $ionicPopup.alert({
+             title: $rootScope.translations.network_error,
+             template: $rootScope.translations.check_network,
+             buttons: [{
+             text: $rootScope.translations.ok,
+             onTap: function () {
+             showError = false;
+             }
+             }]
+             });
+             */
         };
     }
 }

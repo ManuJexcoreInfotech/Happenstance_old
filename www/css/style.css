@@ -80,7 +80,7 @@ img {
 /*css by rajesh*/
 .bar-light .button
 {
-	color:#fff;
+    color:#fff;
 }
 .loading-container .loading{background-color:#fff;}
 .form-bg .item-input .icon{
@@ -253,18 +253,18 @@ img {
 }
 .bar.bar-light .title
 {
-	color:#222222!important;
+    color:#222222!important;
 }
 .item h2
 {
-	color:#333333!important;
+    color:#333333!important;
 }
 .title {
-font-family: "FuturaBT-Medium";
+    font-family: "FuturaBT-Medium";
 }
 input[type=text],input[type=email],input[type=number]
 {
-	color:#666666!important;
+    color:#666666!important;
 }
 .row:nth-child(odd) .col{background: #FFFFFF;}
 .row:nth-child(even) .col{background: #E3EFCD;}
@@ -273,6 +273,28 @@ input[type=text],input[type=email],input[type=number]
 h2.read{color:#333333;}
 h2.unread{color:#fff!important;}
 .row, .scroll {
-  height: 100%;
+    height: 100%;
 }.row h4{margin:auto 20%;}
 .bar .title{line-height:34px;}
+.item a{font-size: 1.1em !important;    color: #000000 !important;}
+.item a i{font-size: 1.2em !important;}
+.title-image{
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+.menutitle{
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: -5px;
+}
+.username{
+    margin-left: 40px;
+    font-size: 18px;
+    font-weight: 600;
+}
+.menutitle{
+    font-size: 18px !important;
+    font-weight: 600 !important;
+}

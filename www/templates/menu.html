@@ -17,81 +17,76 @@
 
 
     <ion-side-menu side="left">
-        <ion-header-bar  ng-show="1"  class="menus bar-light">
-          <span ng-if="!user">
-            <h3 class="padding ">
-               <i class="ion-ios-home-outline"></i> Menu
-            </h3>
-          </span>
-          <span ng-if="user">
-            <h3 class="padding">
-              <span ng-if="!user.avatar">
-                <span class="ion-person"></span>
-              </span>
-              <span ng-if="!!user.avatar">
-                <img src="{{user.avatar}}" width="48" height="48">
-              </span>
-              <span class="drawer-logined padding-horizontal">
-                <div><a href="#app/frame/account/edit">{{user.name}}</a></div>
-                <div><a href="#app/frame/account/edit">{{user.email}}</a></div>
-    		  </span>
-            </h3>
-          </span>
+        <ion-header-bar  ng-show="1"  class="menus bar-light item-icon-left item item-complex">
+            <span ng-if="!user">
+                <h3 class="padding menutitle">
+                    <a href="" >
+                        <i class="ion-ios-home-outline"></i> <span> Menu</span>
+                    </a>
+                </h3>
+            </span>
+            <span ng-if="user">
+                <h3 class="padding">
+                    <a href="" >
+                        <i class="icon ion-ios-person"></i> <span class="username">{{user.u_username| capitalize}}</span>
+                    </a>
+                </h3>
+            </span>
             <span class="icon icon-close pull-right menu-close"></span>
         </ion-header-bar>
         <ion-content class="menus-content">
             <ion-list>
-				<!--<ion-item  nav-clear menu-close>
-					<a href="#app/home" ng-class="{'button-assertive': getActiveClass(0)}"
-					   class="padding-horizontal">
-						 <i class="icon ion-ios-home"></i> Home
-					</a>
-				</ion-item>-->
-				<ion-item  nav-clear menu-close-keep-history>
-					<a menu-toggle="left" href="#app/send_invitation" class="padding-horizontal">
-						<i class="icon ion-paper-airplane"></i> Send Invitation</span>
-					</a>
-				</ion-item>
-				<ion-item  nav-clear menu-close-keep-history>
-					<a menu-toggle="left" href="#app/nearbycontacts" class="padding-horizontal">
-						<i class="icon ion-ios-location-outline"></i> Find Near By Contacts
-					</a>
-				</ion-item>
-				<ion-item  nav-clear menu-close-keep-history>
-					<a menu-toggle="left" href="#app/messages" class="padding-horizontal">
-						<i class="icon ion-email"></i> Messages
-					</a>
-				</ion-item>
-				
-				<ion-item  nav-clear menu-close-keep-history>
-					<a menu-toggle="left" href="#app/contact" class="padding-horizontal">
-						<i class="icon ion-android-contacts"></i> Contact Us
-					</a>
+                <!--<ion-item  nav-clear menu-close>
+                        <a href="#app/home" ng-class="{'button-assertive': getActiveClass(0)}"
+                           class="item-content">
+                                 <i class="icon ion-ios-home"></i> Home
+                        </a>
+                </ion-item>-->
+                <ion-item  nav-clear menu-close-keep-history class="item-icon-left item item-complex">
+                    <a menu-toggle="left" href="#app/send_invitation" class="item-content">
+                        <i class="icon ion-paper-airplane"></i> Send Invitation</span>
+                    </a>
                 </ion-item>
-				<ion-item  nav-clear menu-close ng-if="!!user">
-					<a  nav-clear menu-close-keep-history href="#app/my_account"
-					   class="">
-						<span class="padding-horizontal">{{'My Account' | translate}}</span>
-					</a>
-				</ion-item>
-				<ion-item  nav-clear menu-close-keep-history  ng-if="!!user">
-					<a ng-click="doLogout();menuClose()"
-					   class=" padding-horizontal">
-						<span class="icon icon-left ion-log-out">Logout</i>
-					</a>
-				</ion-item>
-				<ion-item  nav-clear menu-close ng-if="!isIOS"> 
-					<a  ng-click="showExit()"
-					   class="padding-horizontal">
-						<i class="icon icon-left ion-android-exit"></i> Exit
-					</a>
-				</ion-item>
-				<ion-item ng-show="0" nav-clear menu-close>
-					<a  ng-click="menuClose();welcome()"
-					   class="item icon icon-left ion-android-exit">
-						<span class="padding-horizontal">{{'welcome' | translate}}</span>
-					</a>
-				</ion-item>
+                <ion-item  nav-clear menu-close-keep-history class="item-icon-left item item-complex">
+                    <a menu-toggle="left" href="#app/nearbycontacts" class="item-content">
+                        <i class="icon ion-ios-location-outline"></i> Find Near By Contacts
+                    </a>
+                </ion-item>
+                <ion-item  nav-clear menu-close-keep-history class="item-icon-left item item-complex">
+                    <a menu-toggle="left" href="#app/messages" class="item-content">
+                        <i class="icon ion-email"></i> Messages
+                    </a>
+                </ion-item>
+
+                <ion-item  nav-clear menu-close-keep-history class="item-icon-left item item-complex">
+                    <a menu-toggle="left" href="#app/contact" class="item-content">
+                        <i class="icon ion-android-contacts"></i> Contact Us
+                    </a>
+                </ion-item>
+                <ion-item  nav-clear menu-close ng-if="!!user" class="item-icon-left item item-complex">
+                    <a  nav-clear menu-close-keep-history href="#app/change_password" class="item-content">
+                        <i class="icon ion-ios-lock"></i> Change Password
+                    </a>
+                </ion-item>
+                <ion-item  nav-clear menu-close-keep-history  ng-if="!!user" class="item-icon-left item item-complex">
+                    <a ng-click="doLogout();
+                        menuClose()" class=" item-content">
+                        <i class="icon icon-left ion-log-out"></i> Logout
+                    </a>
+                </ion-item>
+                <!--                <ion-item  nav-clear menu-close ng-if="!isIOS"> 
+                                    <a  ng-click="showExit()"
+                                        class="item-content">
+                                        <i class="icon icon-left ion-android-exit"></i> Exit
+                                    </a>
+                                </ion-item>-->
+                <ion-item ng-show="0" nav-clear menu-close class="item-icon-left item item-complex">
+                    <a  ng-click="menuClose();
+                        welcome()"
+                        class="item icon icon-left ion-android-exit">
+                        <span class="item-content">{{'welcome'| translate}}</span>
+                    </a>
+                </ion-item>
             </ion-list>
         </ion-content>
     </ion-side-menu>

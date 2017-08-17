@@ -6,7 +6,7 @@
 
 angular.module('app', [
     'ionic', 'ngCordova', 'pascalprecht.translate',
-    'app.controllers', 'app.filters', 'ionicLazyLoad','slickCarousel'
+    'app.controllers', 'app.filters', 'ionicLazyLoad', 'slickCarousel'
 ])
 
         .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup) {
@@ -22,30 +22,30 @@ angular.module('app', [
             });
             Service($rootScope, $http, $ionicPopup);
         })
-		.constant("Config", {
-		  "WebUrl": "http://localhost/code/happenstance/",
-		  "AppName" : "Happenspances",
-		  "AndroidAppUrl" : "https://play.google.com/store/apps/details?id=com.myspecialgames.advanced2048game",
-		  "ErrorMessage" : "End of results"
-		})
-		// config contact
-		.constant("ConfigContact", {
-		  "EmailId": "weblogtemplatesnet@gmail.com",
-		  "ContactSubject": "Contact"
-		})
-		// config admon
-		.constant("ConfigAdmob", {
-		  "interstitial": "ca-app-pub-3940256099942544/6300978111",
-		  "banner": "ca-app-pub-3940256099942544/1033173712"
-		})
-		// color variations
-		.constant("Color", {
-		  "AppColor": "light", //light, stable, positive, calm, balanced, energized, assertive, royal, dark
-		})
-		// push notification
-		.constant("PushNoti", {
-		  "senderID": "senderID",
-		})
+        .constant("Config", {
+            "WebUrl": "http://localhost/code/happenstance/",
+            "AppName": "Happenspances",
+            "AndroidAppUrl": "https://play.google.com/store/apps/details?id=com.myspecialgames.advanced2048game",
+            "ErrorMessage": "End of results"
+        })
+        // config contact
+        .constant("ConfigContact", {
+            "EmailId": "weblogtemplatesnet@gmail.com",
+            "ContactSubject": "Contact"
+        })
+        // config admon
+        .constant("ConfigAdmob", {
+            "interstitial": "ca-app-pub-3940256099942544/6300978111",
+            "banner": "ca-app-pub-3940256099942544/1033173712"
+        })
+        // color variations
+        .constant("Color", {
+            "AppColor": "light", //light, stable, positive, calm, balanced, energized, assertive, royal, dark
+        })
+        // push notification
+        .constant("PushNoti", {
+            "senderID": "senderID",
+        })
         .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $translateProvider) {
             $ionicConfigProvider.backButton.text('').icon('ion-chevron-left');
             $ionicConfigProvider.scrolling.jsScrolling(false);
@@ -79,7 +79,7 @@ angular.module('app', [
                         }
                     })
                     .state('app.certDownload', {
-                        url: '/certDownload', //�?书下载，其实就是内容管�?�
+                        url: '/certDownload', //�?书下载，其实就是内容管�?�
                         views: {
                             'menuContent': {
                                 templateUrl: 'templates/certDownload.html',
@@ -88,7 +88,7 @@ angular.module('app', [
                         }
                     })
                     .state('app.searchAgent', {
-                        url: '/searchAgent', //附近�?销商
+                        url: '/searchAgent', //附近�?销商
                         views: {
                             'menuContent': {
                                 templateUrl: 'templates/searchAgent.html',
@@ -97,7 +97,7 @@ angular.module('app', [
                         }
                     })
                     .state('app.agents', {
-                        url: '/agents', //附近�?销商列表
+                        url: '/agents', //附近�?销商列表
                         views: {
                             'menuContent': {
                                 templateUrl: 'templates/agents.html',
@@ -106,7 +106,7 @@ angular.module('app', [
                         }
                     })
                     .state('app.survey', {
-                        url: '/survey', //问�?�调查
+                        url: '/survey', //问�?�调查
                         views: {
                             'menuContent': {
                                 templateUrl: 'templates/survey.html'
@@ -168,7 +168,7 @@ angular.module('app', [
                             }
                         }
                     })
-                    
+
                     .state('app.forgotPwd', {
                         url: '/forgotPwd',
                         views: {
@@ -215,74 +215,84 @@ angular.module('app', [
                         }
                     })
                     .state('app.send_invitation', {
-						url: "/send_invitation",
-						cache: false,
-						views: {
-							'menuContent': {
-								templateUrl: "templates/templates/send_invitation.html",
-								controller: "HomeCtrl"
-							}
-						}
-					})
-					.state('app.invitation', {
-						url: "/invitation",
-						cache: false,
-						views: {
-							'menuContent': {
-								templateUrl: "templates/templates/receive_invitation.html",
-								controller: "HomeCtrl"
-							}
-						}
-					})
-					.state('app.send_message', {
-						url: "/send_message",
-						cache: false,
-						views: {
-							'menuContent': {
-								templateUrl: "templates/templates/send_message.html",
-								controller: "HomeCtrl"
-							}
-						}
-					})
-					.state('app.nearbycontacts', {
-						url: "/nearbycontacts",
-						cache: false,
-						views: {
-							'menuContent': {
-								templateUrl: "templates/templates/nearbycontacts.html",
-								controller: "HomeCtrl"
-							}
-						}
-					})
-					.state('app.messages', {
-						url: "/messages",
-						cache: false,
-						views: {
-							'menuContent': {
-								templateUrl: "templates/templates/messages.html",
-								controller: "HomeCtrl"
-							}
-						}
-					})
-					.state('app.reply_message', {
-						url: "/reply_message",
-						cache: false,
-						views: {
-							'menuContent': {
-								templateUrl: "templates/templates/reply_message.html",
-								controller: "HomeCtrl"
-							}
-						}
-					})
-					 .state('app.contact', {
-					  url: "/contact",
-					  views: {
-						'menuContent' :{
-							templateUrl: "templates/templates/contacts.html",
-							controller: "contactCtrl"
-						}
-					  }
-					})
+                        url: "/send_invitation",
+                        cache: false,
+                        views: {
+                            'menuContent': {
+                                templateUrl: "templates/templates/send_invitation.html",
+                                controller: "HomeCtrl"
+                            }
+                        }
+                    })
+                    .state('app.invitation', {
+                        url: "/invitation",
+                        cache: false,
+                        views: {
+                            'menuContent': {
+                                templateUrl: "templates/templates/receive_invitation.html",
+                                controller: "HomeCtrl"
+                            }
+                        }
+                    })
+                    .state('app.send_message', {
+                        url: "/send_message",
+                        cache: false,
+                        views: {
+                            'menuContent': {
+                                templateUrl: "templates/templates/send_message.html",
+                                controller: "HomeCtrl"
+                            }
+                        }
+                    })
+                    .state('app.nearbycontacts', {
+                        url: "/nearbycontacts",
+                        cache: false,
+                        views: {
+                            'menuContent': {
+                                templateUrl: "templates/templates/nearbycontacts.html",
+                                controller: "HomeCtrl"
+                            }
+                        }
+                    })
+                    .state('app.change_password', {
+                        url: "/change_password",
+                        cache: false,
+                        views: {
+                            'menuContent': {
+                                templateUrl: "templates/templates/change_password.html",
+                                controller: "HomeCtrl"
+                            }
+                        }
+                    })
+                    .state('app.messages', {
+                        url: "/messages",
+                        cache: false,
+                        views: {
+                            'menuContent': {
+                                templateUrl: "templates/templates/messages.html",
+                                controller: "HomeCtrl"
+                            }
+                        }
+                    })
+                    .state('app.reply_message', {
+                        url: "/reply_message",
+                        cache: false,
+                        views: {
+                            'menuContent': {
+                                templateUrl: "templates/templates/reply_message.html",
+                                controller: "HomeCtrl"
+                            }
+                        }
+                    })
+                    .state('app.contact', {
+                        url: "/contact",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "templates/templates/contacts.html",
+                                controller: "contactCtrl"
+                            }
+                        }
+                    })
                     .state('app.frame', {
                         url: '/frame/:page',
                         views: {
@@ -296,9 +306,13 @@ angular.module('app', [
             // if none of the above states are matched, use this as the fallback
             $urlRouterProvider.otherwise('/app/home');
 
-	
-        })
 
+        })
+        .filter('capitalize', function () {
+            return function (input) {
+                return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
+            }
+        })
         .directive('onFinishRender', function ($timeout) {
             return {
                 restrict: 'A',
