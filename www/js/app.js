@@ -173,7 +173,7 @@ angular.module('app', [
                         url: '/forgotPwd',
                         views: {
                             'menuContent': {
-                                templateUrl: 'templates/templates/forgotPwd.html',
+                                templateUrl: 'templates/templates/forgotpwd.html',
                                 controller: 'forgotPwdCtrl'
                             }
                         }
