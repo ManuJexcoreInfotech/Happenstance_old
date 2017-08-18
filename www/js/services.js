@@ -3,6 +3,7 @@ function Service($rootScope, $http, $ionicPopup) {
     var api = {
         website: 'webservice/api/websiteinfo',
         getUser: 'webservice/api/getUser',
+        groupList: 'webservice/api/getGroups',
         forgotPassword: 'webservice/api/forgotPassword',
         changepassword: 'webservice/api/changePassword',
         logout: 'webservice/api/logout',

@@ -220,7 +220,7 @@ angular.module('app', [
                         views: {
                             'menuContent': {
                                 templateUrl: "templates/templates/send_invitation.html",
-                                controller: "HomeCtrl"
+                                controller: "SendInviteCtrl"
                             }
                         }
                     })

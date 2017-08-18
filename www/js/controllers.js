@@ -77,8 +77,7 @@ angular.module('app.controllers', [])
                                     if ($scope.loginData.rememberme) {
                                         Config.setUsername($scope.loginData.username);
                                         Config.setPassword($scope.loginData.password);
-                                    }
-                                    else {
+                                    } else {
                                         Config.setUsername('');
                                         Config.setPassword('');
                                     }
@@ -211,8 +210,7 @@ angular.module('app.controllers', [])
                             $state.go('app.home');
 
                             return;
-                        }
-                        else
+                        } else
                         {
                             alert(res.message);
                         }
@@ -230,14 +228,13 @@ angular.module('app.controllers', [])
                 $scope.showLoading();
                 if (isValid) {
 
-					$scope.user.u_id=getStorage('user_id');
+                    $scope.user.u_id = getStorage('user_id');
                     $rootScope.service.post('changepassword', $scope.user, function (res) {
                         $scope.hideLoading();
                         if (res.status == 1) {
                             alert(res.message);
                             $state.go('app.home');
-                        }
-                        else
+                        } else
                         {
                             alert(res.message);
                         }
@@ -248,6 +245,30 @@ angular.module('app.controllers', [])
         .controller('contactCtrl', function ($scope, $rootScope, $state, $stateParams) {
 
 
+        })
+        .controller('SendInviteCtrl', function ($scope, $rootScope, $state) {
+            $scope.groups={};
+            $rootScope.service.post('groupList', $scope.user, function (res) {
+                $scope.groups = res.result;
+            });
+            $scope.user = {};
+            $scope.submitForm = function (isValid) {
+                $scope.showLoading();
+                if (isValid) {
+
+                    $scope.user.u_id = getStorage('user_id');
+                    $rootScope.service.post('changepassword', $scope.user, function (res) {
+                        $scope.hideLoading();
+                        if (res.status == 1) {
+                            alert(res.message);
+                            $state.go('app.home');
+                        } else
+                        {
+                            alert(res.message);
+                        }
+                    });
+                }
+            }
         })
         .controller('my_accountCtrl', function ($scope, $rootScope, $state) {
 
@@ -409,8 +430,7 @@ angular.module('app.controllers', [])
                         if (res.status == 1) {
                             alert(res.message);
                             $state.go('app.login');
-                        }
-                        else
+                        } else
                         {
                             alert(res.message);
                         }
@@ -467,8 +487,7 @@ angular.module('app.controllers', [])
                         if (res.status == 1) {
                             alert(res.message);
                             $state.go('app.login');
-                        }
-                        else
+                        } else
                         {
                             alert(res.message);
                         }
