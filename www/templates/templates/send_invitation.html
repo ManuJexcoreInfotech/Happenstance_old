@@ -22,8 +22,8 @@
                 <label class="item item-input">
                     <h2 class="leftside">Group </h2>
                     <!--<input required ng-model="user.group" class="inputbrd" name="group" type="text" placeholder="Group" form-validate-after>-->
-                    <select name="groups" ng-model="user.group" class="inputbrd" ng-repeat="x in groups">
-                        <option value="{{x.g_id}}">{{x.g_name}}</option>
+                    <select name="group_id" ng-model="user.group" class="inputbrd" >
+                        <option ng-repeat="x in groups" value="{{x.g_id}}">{{x.g_name}}</option>
                     </select>
                 </label>
                 <span ng-message class="warning-message-normal" ng-show="postForm.group.$invalid && postForm.group.$dirty">Required</span>

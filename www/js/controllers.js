@@ -249,15 +249,15 @@ angular.module('app.controllers', [])
         .controller('SendInviteCtrl', function ($scope, $rootScope, $state) {
             $scope.groups={};
             $rootScope.service.post('groupList', $scope.user, function (res) {
-                $scope.groups = res.result;
+                $scope.groups = angular.fromJson(res.result);
             });
             $scope.user = {};
             $scope.submitForm = function (isValid) {
-                $scope.showLoading();
+                
                 if (isValid) {
-
-                    $scope.user.u_id = getStorage('user_id');
-                    $rootScope.service.post('changepassword', $scope.user, function (res) {
+                    $scope.showLoading();
+                    $scope.user.userid = getStorage('user_id');
+                    $rootScope.service.post('sendInvitation', $scope.user, function (res) {
                         $scope.hideLoading();
                         if (res.status == 1) {
                             alert(res.message);
