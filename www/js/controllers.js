@@ -177,18 +177,18 @@ angular.module('app.controllers', [])
         .controller('loginCtrl', function ($scope, $rootScope, $ionicPopup, $timeout, $state, $ionicHistory) {
             var user = 0;
             user = getStorage('user_id');
+            if (user !== 0 && user !== null) {
 
+                $ionicHistory.goBack(); 
+
+            }
             $scope.user = {};
             if (Config.getRememberme()) {
                 $scope.user.rememberme = true;
                 $scope.user.username = Config.getUsername();
                 $scope.user.password = Config.getPassword();
             }
-            if (user != 0 && user != null) {
-
-                $state.go('app.home');
-
-            }
+            
 
             $scope.submitForm = function (isValid) {
                 if (isValid) {
