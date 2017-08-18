@@ -8,7 +8,7 @@
             <form method="post" class="invtform" ng-submit="submitForm(postForm.$valid)" name="postForm" novalidate>
                 <label class="item item-input">
                     <h2 class="leftside">Name </h2>
-                    <input required type="email" class="inputbrd" ng-model="user.name" name="name" placeholder="Name" value="" form-validate-after>
+                    <input required type="text" class="inputbrd" ng-model="user.name" name="name" placeholder="Name" value="" form-validate-after>
                 </label>
                 <span ng-message class="warning-message-normal" ng-show="postForm.name.$error.required && postForm.name.$dirty">Required</span>
 
@@ -22,17 +22,17 @@
                 <label class="item item-input">
                     <h2 class="leftside">Group </h2>
                     <!--<input required ng-model="user.group" class="inputbrd" name="group" type="text" placeholder="Group" form-validate-after>-->
-                    <select name="group_id" ng-model="user.group" class="inputbrd" >
+                    <select name="group_id" ng-model="user.group_id" class="inputbrd" >
                         <option ng-repeat="x in groups" value="{{x.g_id}}">{{x.g_name}}</option>
                     </select>
                 </label>
-                <span ng-message class="warning-message-normal" ng-show="postForm.group.$invalid && postForm.group.$dirty">Required</span>
+                <span ng-message class="warning-message-normal" ng-show="postForm.group_id.$error.required">Required</span>
                 <div class="padding"></div>
                 <div class="padding onebtncss">
                     <button type="submit" class="button button-block button-{{appColor}}"> Save </button>
                 </div>
                 <div class="padding onebtncss">
-                    <button type="submit" class="button button-block button-dark"> Home </button>
+                     <a href="#/app/home" class="button button-block button-dark"> Home </a>
                 </div>
             </form>
         </div>

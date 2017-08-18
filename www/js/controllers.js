@@ -246,14 +246,15 @@ angular.module('app.controllers', [])
 
 
         })
-        .controller('SendInviteCtrl', function ($scope, $rootScope, $state) {
+        .controller('SendInviteCtrl', function ($scope, $rootScope, $state,$ionicHistory) {
             $scope.groups={};
             $rootScope.service.post('groupList', $scope.user, function (res) {
                 $scope.groups = angular.fromJson(res.result);
             });
             $scope.user = {};
+           
             $scope.submitForm = function (isValid) {
-                
+               
                 if (isValid) {
                     $scope.showLoading();
                     $scope.user.userid = getStorage('user_id');
@@ -261,7 +262,7 @@ angular.module('app.controllers', [])
                         $scope.hideLoading();
                         if (res.status == 1) {
                             alert(res.message);
-                            $state.go('app.home');
+                             $ionicHistory.goBack(); 
                         } else
                         {
                             alert(res.message);
