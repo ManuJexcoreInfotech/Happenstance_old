@@ -6,23 +6,18 @@ angular.module('app.controllers', [])
                 $ionicTabsDelegate, $ionicLoading,
                 $ionicPopup, $timeout, $state,
                 $ionicSideMenuDelegate, $translate,
-                $ionicPlatform, $ionicHistory, Color,$cordovaDevice) {
+                $ionicPlatform, $ionicHistory, Color,$cordovaGeolocation) {
                   
-            document.addEventListener("deviceready", function(){
-		var device = $cordovaDevice.getDevice();
-
-		var cordova = $cordovaDevice.getCordova();
-
-		var model = $cordovaDevice.getModel();
-
-		var platform = $cordovaDevice.getPlatform();
-
-		var uuid = $cordovaDevice.getUUID();
-
-		var version = $cordovaDevice.getVersion();
-		alert(device);
-		alert(uuid);
-            });
+            var posOptions = {timeout: 10000, enableHighAccuracy: false};
+            $cordovaGeolocation
+                  .getCurrentPosition(posOptions)
+                  .then(function (position) {
+                    var lat  = position.coords.latitude
+                    var long = position.coords.longitude
+                    console.log( position.coords);
+                  }, function(err) {
+                    console.log(err);
+                  });     
 
             $scope.dynamic_menus = {};
             $scope.appColor = Color.AppColor;
