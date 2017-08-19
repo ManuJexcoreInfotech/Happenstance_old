@@ -132,12 +132,12 @@ angular.module('app', [
                         }
                     })
 
-                    .state('app.women', {
-                        url: '/women',
+                    .state('app.notification', {
+                        url: '/notification',
                         views: {
                             'menuContent': {
                                 templateUrl: 'templates/women.html',
-                                controller: 'womenCtrl'
+                                controller: 'HomeCtrl'
                             }
                         }
                     })
@@ -150,25 +150,7 @@ angular.module('app', [
                             }
                         }
                     })
-                    .state('app.CategoryList', {
-                        url: '/categoryList/:categoryid/:name',
-                        views: {
-                            'menuContent': {
-                                templateUrl: 'templates/categorylist.html',
-                                controller: 'CategoryListCtrl'
-                            }
-                        }
-                    })
-                    .state('app.CategoryProductList', {
-                        url: '/CategoryProductList/:categoryid', //????
-                        views: {
-                            'menuContent': {
-                                templateUrl: 'templates/categoryproductlist.html',
-                                controller: 'CategoryProductListCtrl'
-                            }
-                        }
-                    })
-
+                    
                     .state('app.forgotPwd', {
                         url: '/forgotPwd',
                         views: {
@@ -187,33 +169,7 @@ angular.module('app', [
                             }
                         }
                     })
-                    .state('app.productDetail', {
-                        url: '/productDetail/:productid',
-                        views: {
-                            'menuContent': {
-                                templateUrl: 'templates/productDetail.html',
-                                controller: 'productDetailCtrl'
-                            }
-                        }
-                    })
-                    .state('app.searchResult', {
-                        url: '/searchResult',
-                        views: {
-                            'menuContent': {
-                                templateUrl: 'templates/searchResult.html',
-                                controller: 'SearchResultCtrl'
-                            }
-                        }
-                    })
-                    .state('app.searchAdv', {
-                        url: '/searchAdv', //高级查询
-                        views: {
-                            'menuContent': {
-                                templateUrl: 'templates/searchAdv.html',
-                                controller: 'SearchAdvCtrl'
-                            }
-                        }
-                    })
+                    
                     .state('app.send_invitation', {
                         url: "/send_invitation",
                         cache: false,
