@@ -298,9 +298,15 @@ h2.unread{color:#fff!important;}
     font-size: 18px !important;
     font-weight: 600 !important;
 }
-.badge
+.badge-right
 {
-	position: absolute;
+	position: absolute!important;
     top: -4px;
     right: 2px;
+}
+.badge-left
+{
+	position: absolute!important;
+    top: -5px;
+    right: -25px;
 }

@@ -180,13 +180,13 @@ angular.module('app', [
                             }
                         }
                     })
-                    .state('app.invitation', {
-                        url: "/invitation",
+                    .state('app.receive_invitation', {
+                        url: "/receive_invitation",
                         cache: false,
                         views: {
                             'menuContent': {
                                 templateUrl: "templates/templates/receive_invitation.html",
-                                controller: "HomeCtrl"
+                                controller: "ReceiveInvitationCtrl"
                             }
                         }
                     })

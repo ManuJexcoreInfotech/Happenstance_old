@@ -124,12 +124,13 @@ angular.module('app.controllers', [])
                 }
             };
 
-
+            $scope.invite = '';
             $scope.getUser = function () {
                 $scope.sessionData = {};
                 $scope.sessionData.user_id = getStorage('user_id');
                 $rootScope.service.post('getUser', $scope.sessionData, function (user) {
                     $scope.user = typeof user.result === 'object' ? user.result : null;
+                    $scope.invite= user.invite;
                 });
             };
             $scope.getUser();
@@ -483,6 +484,41 @@ angular.module('app.controllers', [])
             var frame = Config.frames[$stateParams.page];
             $scope.title = $scope.translations[$stateParams.page];
             $scope.src = Config.baseUrl + Config.getLocale() + frame.src;
+        })
+        .controller('ReceiveInvitationCtrl', function ($scope, $rootScope, $state, $ionicSlideBoxDelegate, $timeout,$ionicPopup) {
+                $scope.invite ={};
+                $scope.sessionData.u_id = getStorage('user_id');
+                $rootScope.service.post('receiveInvitation', $scope.sessionData, function (data) {
+                    $scope.invite = typeof data.result === 'object' ? data.result : null;
+                   
+                });
+               
+                $scope.acceptInvitation = function (inv_id) {
+                    var myPopup = $ionicPopup.show({
+                        templateUrl: 'templates/privacy.html',
+                        title: 'Accept Invitation',
+                        scope: $scope,
+                        buttons: [
+                            {text: 'Cancel'},
+                            {
+                                text: '<b>Accept</b>',
+                                type: 'button-positive',
+                                onTap: function (e) {
+                                    if (!$scope.data.wifi) {
+                                        //don't allow the user to close unless he enters wifi password
+                                        e.preventDefault();
+                                    } else {
+                                        return $scope.data.wifi;
+                                    }
+                                }
+                            },
+                        ]
+                    });
+                    myPopup.then(function (res) {
+                        console.log('Tapped!', res);
+                    });
+                };
+                
         })
         .controller('FrameCtrl', function ($scope, $sce, $stateParams) {
             $scope.trustSrc = function (src) {

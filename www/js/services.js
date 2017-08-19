@@ -5,6 +5,7 @@ function Service($rootScope, $http, $ionicPopup) {
         getUser: 'webservice/api/getUser',
         groupList: 'webservice/api/getGroups',
         sendInvitation: 'webservice/api/sendInvistation',
+        receiveInvitation: 'webservice/api/receiveInvitation',
         forgotPassword: 'webservice/api/forgotPassword',
         changepassword: 'webservice/api/changePassword',
         logout: 'webservice/api/logout',

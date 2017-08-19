@@ -6,11 +6,13 @@
 
             <ion-nav-buttons side="left">
                 <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+                    <span class=" badge badge-left badge-assertive" ng-if="invite > 0">{{invite}}</span>
                 </button>
+                 
             </ion-nav-buttons>
             <ion-nav-buttons side="right">
                 <a href="#app/notification" class="button button-icon nav-clear ion-ios-bell"  menu-close-keep-history></a>
-                <span class="badge badge-assertive" ng-if="notification">{{notification}}</span>
+                <span class="badge badge-right badge-assertive" ng-if="notification">{{notification}}</span>
             </ion-nav-buttons>
         </ion-nav-bar>
         <ion-nav-view name="menuContent" animation="none"></ion-nav-view>
@@ -45,7 +47,12 @@
                 </ion-item>-->
                 <ion-item  nav-clear menu-close-keep-history class="item-icon-left item item-complex">
                     <a menu-toggle="left" href="#app/send_invitation" class="item-content">
-                        <i class="icon ion-paper-airplane"></i> Send Invitation</span>
+                        <i class="icon ion-paper-airplane"></i> Send Invitation
+                    </a>
+                </ion-item>
+                <ion-item  nav-clear menu-close-keep-history class="item-icon-left item item-complex">
+                    <a menu-toggle="left" href="#app/receive_invitation" class="item-content">
+                        <i class="icon ion-android-send"></i> Receive Invitation <span class="badge badge-assertive" ng-if="invite > 0">{{invite}}</span>
                     </a>
                 </ion-item>
                 <ion-item  nav-clear menu-close-keep-history class="item-icon-left item item-complex">
