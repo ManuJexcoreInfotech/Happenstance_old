@@ -14,6 +14,7 @@ angular.module('app.controllers', [])
                   .then(function (position) {
                     var lat  = position.coords.latitude
                     var long = position.coords.longitude
+                    alert(lat+'-'+ long);
                     console.log( position.coords);
                   }, function(err) {
                     console.log(err);
