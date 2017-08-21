@@ -73,19 +73,19 @@ function Service($rootScope, $http, $ionicPopup) {
                 return;
             }
             showError = true;
-            alert($rootScope.translations.network_error + '\r\n' + $rootScope.translations.check_network);
-            /*
+            alert('Network Error\r\n Please check your network connection!');
+            
              $ionicPopup.alert({
-             title: $rootScope.translations.network_error,
-             template: $rootScope.translations.check_network,
+             title: "Network Error",
+             template:"Please check your network connection!",
              buttons: [{
-             text: $rootScope.translations.ok,
+             text: "ok",
              onTap: function () {
              showError = false;
              }
              }]
              });
-             */
+            
         };
     }
 }

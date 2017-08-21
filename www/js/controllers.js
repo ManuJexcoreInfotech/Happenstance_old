@@ -528,8 +528,9 @@ angular.module('app.controllers', [])
                     });
                     $scope.user = {};
                     $scope.user.username = getStorage('username');
-                    $scope.inv_id = inv_id;
+                    $scope.user.inv_id = inv_id;
                     $scope.group = group_id;
+                    $scope.valid = 1;
                     var myPopup = $ionicPopup.show({
                         templateUrl: 'templates/templates/receive_invitation_popup.html',
                         title: 'Accept Invitation',
@@ -551,15 +552,18 @@ angular.module('app.controllers', [])
                                         $scope.user.u_id = getStorage('user_id');
                                         $rootScope.service.post('acceptInvitation', $scope.user, function (res) {
                                             $scope.hideLoading();
+                                            alert(res.status);
                                             if (res.status == 1) {
                                                 alert(res.message);
                                                 $state.go($state.current, {}, {reload: true});
                                             } else
                                             {
-                                                e.preventDefault();
+                                               $scope.valid =0;
                                                 alert(res.message);
                                             }
                                         });
+                                        if($scope.valid == 0)
+                                            e.preventDefault();
                                     }
                                 }
                             },
