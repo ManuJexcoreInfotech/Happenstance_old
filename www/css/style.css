@@ -300,13 +300,25 @@ h2.unread{color:#fff!important;}
 }
 .badge-right
 {
-	position: absolute!important;
+    position: absolute!important;
     top: -4px;
     right: 2px;
 }
 .badge-left
 {
-	position: absolute!important;
+    position: absolute!important;
     top: -5px;
     right: -25px;
+}
+.popup-container .popup{
+    width: 95% !important;
+    background-color: rgba(255,255,255,1) !important;
+}
+.popup-body{
+    height: 280px !important;
+}
+.popup-title{
+    font-size: 16px;
+    font-weight: 600;
+
 }

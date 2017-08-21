@@ -130,6 +130,7 @@ angular.module('app.controllers', [])
                 $scope.sessionData.user_id = getStorage('user_id');
                 $rootScope.service.post('getUser', $scope.sessionData, function (user) {
                     $scope.user = typeof user.result === 'object' ? user.result : null;
+                    setStorage('username', user.result.u_username);
                     $scope.invite= user.invite;
                 });
             };
@@ -485,6 +486,32 @@ angular.module('app.controllers', [])
             $scope.title = $scope.translations[$stateParams.page];
             $scope.src = Config.baseUrl + Config.getLocale() + frame.src;
         })
+        .controller('checkInvitationCtrl', function ($scope, $rootScope, $state, $ionicSlideBoxDelegate, $timeout,$ionicPopup) {
+           
+            $scope.groups={};
+            $rootScope.service.post('groupList', $scope.user, function (res) {
+                $scope.groups = angular.fromJson(res.result);
+            });
+            $scope.user = {};
+            $scope.user.username = getStorage('username');
+            $scope.submitForm = function (isValid) {
+               
+                if (isValid) {
+                    $scope.showLoading();
+                    $scope.user.userid = getStorage('user_id');
+                    
+                    $rootScope.service.post('acceptInvitation', $scope.user, function (res) {
+                        $scope.hideLoading();
+                        if (res.status == 1) {
+                            alert(res.message);
+                        } else
+                        {
+                            alert(res.message);
+                        }
+                    });
+                }
+            }
+        })
         .controller('ReceiveInvitationCtrl', function ($scope, $rootScope, $state, $ionicSlideBoxDelegate, $timeout,$ionicPopup) {
                 $scope.invite ={};
                 $scope.sessionData.u_id = getStorage('user_id');
@@ -493,9 +520,18 @@ angular.module('app.controllers', [])
                    
                 });
                
-                $scope.acceptInvitation = function (inv_id) {
+               
+                $scope.acceptInvitation = function (inv_id,group_id) {
+                    $scope.groups={};
+                    $rootScope.service.post('groupList', $scope.user, function (res) {
+                        $scope.groups = angular.fromJson(res.result);
+                    });
+                    $scope.user = {};
+                    $scope.user.username = getStorage('username');
+                    $scope.inv_id = inv_id;
+                    $scope.group = group_id;
                     var myPopup = $ionicPopup.show({
-                        templateUrl: 'templates/privacy.html',
+                        templateUrl: 'templates/templates/receive_invitation_popup.html',
                         title: 'Accept Invitation',
                         scope: $scope,
                         buttons: [
@@ -504,19 +540,32 @@ angular.module('app.controllers', [])
                                 text: '<b>Accept</b>',
                                 type: 'button-positive',
                                 onTap: function (e) {
-                                    if (!$scope.data.wifi) {
-                                        //don't allow the user to close unless he enters wifi password
+                                    if (!$scope.user.code) {
                                         e.preventDefault();
+                                        alert("Please Eneter code.")
                                     } else {
-                                        return $scope.data.wifi;
+                                         if (!$scope.user.group_id) {
+                                             $scope.user.group_id=group_id;
+                                         }
+                                        $scope.showLoading();
+                                        $scope.user.u_id = getStorage('user_id');
+                                        $rootScope.service.post('acceptInvitation', $scope.user, function (res) {
+                                            $scope.hideLoading();
+                                            if (res.status == 1) {
+                                                alert(res.message);
+                                                $state.go($state.current, {}, {reload: true});
+                                            } else
+                                            {
+                                                e.preventDefault();
+                                                alert(res.message);
+                                            }
+                                        });
                                     }
                                 }
                             },
                         ]
                     });
-                    myPopup.then(function (res) {
-                        console.log('Tapped!', res);
-                    });
+                    
                 };
                 
         })
