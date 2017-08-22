@@ -404,7 +404,7 @@ angular.module('app.controllers', [])
                                    
                                     $rootScope.service.post('sendMessage', $scope.data, function (res) {
                                         $scope.hideLoading();
-                                        alert(res.status);
+                                        
                                         if (res.status == 1) {
                                             alert(res.message);
                                             $state.go($state.current, {}, {reload: true});
@@ -494,7 +494,7 @@ angular.module('app.controllers', [])
                                     $scope.user.u_id = getStorage('user_id');
                                     $rootScope.service.post('acceptInvitation', $scope.user, function (res) {
                                         $scope.hideLoading();
-                                        alert(res.status);
+                                        
                                         if (res.status == 1) {
                                             alert(res.message);
                                             $state.go($state.current, {}, {reload: true});
@@ -564,7 +564,7 @@ angular.module('app.controllers', [])
                                    
                                     $rootScope.service.post('replyMessage', $scope.data, function (res) {
                                         $scope.hideLoading();
-                                        alert(res.status);
+                                        
                                         if (res.status == 1) {
                                             alert(res.message);
                                             $state.go($state.current, {}, {reload: true});
