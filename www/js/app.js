@@ -226,7 +226,7 @@ angular.module('app', [
                         views: {
                             'menuContent': {
                                 templateUrl: "templates/templates/messages.html",
-                                controller: "HomeCtrl"
+                                controller: "messageCtrl"
                             }
                         }
                     })
@@ -236,7 +236,7 @@ angular.module('app', [
                         views: {
                             'menuContent': {
                                 templateUrl: "templates/templates/reply_message.html",
-                                controller: "HomeCtrl"
+                                controller: "ReplyMessageCtrl"
                             }
                         }
                     })

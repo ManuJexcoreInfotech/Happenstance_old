@@ -4,15 +4,17 @@
     </ion-nav-title>
     <ion-content padding="10">
         <div class="list">
+            <div class="" ng-repeat="data in messages " >
+                <h4 class="width-80" ng-class="data.msg_sen_id==user_id ? 'left':'right'">{{data.msg_message}}</h4>
+            </div>
+        </div>
+        <div class="list">
+            <div class="padding"></div>
             <form method="post" class="invtform" ng-submit="submitForm(postForm.$valid)" name="postForm" novalidate>
-                <label class="item item-input">
-                    <textarea required ng-model="user.comments" rows="6" class="bg-textarea" name="comments" placeholder="Comments"></textarea>
-                </label>
-                <span ng-message class="warning-message-normal" ng-show="postForm.comments.$error.required && postForm.comments.$dirty">Required</span>
 
                 <div class="padding"></div>
                 <div class="padding onebtncss">
-                    <button type="submit" class="button button-block button-{{appColor}}"> Reply </button>
+                    <button type="submit" class="button button-block button-{{appColor}}" ng-click="replyMessage()"> Reply </button>
                 </div>
                 <div class="padding onebtncss">
                     <button type="submit" class="button button-block button-dark"> Home </button>

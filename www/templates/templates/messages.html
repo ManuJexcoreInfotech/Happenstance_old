@@ -7,12 +7,8 @@
         <!--ng-repeat="item in items"--> 
         <div> 
             <ion-list class="messageList">
-                <ion-item>
-                    <a href="" ng-click="login()"><h2 class="read">Test Message From</h2></a>
-                    <a href="" ng-click="login()"><h2 class="unread">Test Message From</h2></a>
-                    <a href="" ng-click="login()"><h2 class="unread">Test Message From</h2></a>
-                    <a href="" ng-click="login()"><h2 class="read">Test Message From</h2></a>
-                    <a href="" ng-click="login()"><h2 class="unread">Test Message From</h2></a>
+                <ion-item ng-repeat="data in messages">
+                    <a href="#/app/reply_message?msg_id={{data.msg_id}}" ><h2 class=" " ng-class="data.msg_status ==0 && 'read' || 'unread'"> {{data.u_username | capitalize}}</h2></a>
                 </ion-item>
             </ion-list>
         </div>

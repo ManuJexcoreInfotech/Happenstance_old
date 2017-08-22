@@ -6,18 +6,18 @@ angular.module('app.controllers', [])
                 $ionicTabsDelegate, $ionicLoading,
                 $ionicPopup, $timeout, $state,
                 $ionicSideMenuDelegate, $translate,
-                $ionicPlatform, $ionicHistory, Color,$cordovaGeolocation) {
-                  
+                $ionicPlatform, $ionicHistory, Color, $cordovaGeolocation) {
+
             var posOptions = {timeout: 10000, enableHighAccuracy: false};
             $cordovaGeolocation
-                  .getCurrentPosition(posOptions)
-                  .then(function (position) {
-                    var lat  = position.coords.latitude
-                    var long = position.coords.longitude
-                    console.log( position.coords);
-                  }, function(err) {
-                    console.log(err);
-                  });     
+                    .getCurrentPosition(posOptions)
+                    .then(function (position) {
+                        var lat = position.coords.latitude
+                        var long = position.coords.longitude
+                        console.log(position.coords);
+                    }, function (err) {
+                        console.log(err);
+                    });
 
             $scope.dynamic_menus = {};
             $scope.appColor = Color.AppColor;
@@ -131,15 +131,16 @@ angular.module('app.controllers', [])
                 $rootScope.service.post('getUser', $scope.sessionData, function (user) {
                     $scope.user = typeof user.result === 'object' ? user.result : null;
                     setStorage('username', user.result.u_username);
-                    $scope.invite= user.invite;
+                    $scope.invite = user.invite;
+                    $scope.notification = user.message;
                 });
             };
             $scope.getUser();
             if (!$scope.user) {
                 $scope.autoLogin();
-            }else
+            } else
             {
-                 $rootScope.service.post('getInvitation', $scope.sessionData, function (user) {
+                $rootScope.service.post('getInvitation', $scope.sessionData, function (user) {
                     $scope.user = typeof user.result === 'object' ? user.result : null;
                 });
             }
@@ -182,17 +183,31 @@ angular.module('app.controllers', [])
                 }
             }, 100);
 
-          
+
 
         })
+        // Home Controller
+        .controller('HomeCtrl', function ($scope, $rootScope, $state, $ionicSlideBoxDelegate, $timeout) {
 
 
+            var user = 0;
+            user = getStorage('user_id');
+            if (user == 0 || user == null) {
+                $state.go('app.login');
+                return;
+
+            }
+
+            $scope.searchData = {};
+
+        })
+        // Login Controller
         .controller('loginCtrl', function ($scope, $rootScope, $ionicPopup, $timeout, $state, $ionicHistory) {
             var user = 0;
             user = getStorage('user_id');
             if (user !== 0 && user !== null) {
 
-                $ionicHistory.goBack(); 
+                $ionicHistory.goBack();
 
             }
             $scope.user = {};
@@ -201,7 +216,7 @@ angular.module('app.controllers', [])
                 $scope.user.username = Config.getUsername();
                 $scope.user.password = Config.getPassword();
             }
-            
+
 
             $scope.submitForm = function (isValid) {
                 if (isValid) {
@@ -235,56 +250,7 @@ angular.module('app.controllers', [])
             }
 
         })
-        .controller('ChangePwdCtrl', function ($scope, $rootScope, $state, $stateParams) {
-            $scope.user = {};
-            $scope.submitForm = function (isValid) {
-                $scope.showLoading();
-                if (isValid) {
-
-                    $scope.user.u_id = getStorage('user_id');
-                    $rootScope.service.post('changepassword', $scope.user, function (res) {
-                        $scope.hideLoading();
-                        if (res.status == 1) {
-                            alert(res.message);
-                            $state.go('app.home');
-                        } else
-                        {
-                            alert(res.message);
-                        }
-                    });
-                }
-            }
-        })
-        .controller('contactCtrl', function ($scope, $rootScope, $state, $stateParams) {
-
-
-        })
-        .controller('SendInviteCtrl', function ($scope, $rootScope, $state,$ionicHistory) {
-            $scope.groups={};
-            $rootScope.service.post('groupList', $scope.user, function (res) {
-                $scope.groups = angular.fromJson(res.result);
-            });
-            $scope.user = {};
-           
-            $scope.submitForm = function (isValid) {
-               
-                if (isValid) {
-                    $scope.showLoading();
-                    $scope.user.userid = getStorage('user_id');
-                    $rootScope.service.post('sendInvitation', $scope.user, function (res) {
-                        $scope.hideLoading();
-                        if (res.status == 1) {
-                            alert(res.message);
-                             $ionicHistory.goBack(); 
-                        } else
-                        {
-                            alert(res.message);
-                        }
-                    });
-                }
-            }
-        })
-       
+        // Register
         .controller('registerCtrl', function ($scope, $rootScope, $ionicPopup, $timeout, $state) {
             $scope.user = {};
 
@@ -348,7 +314,7 @@ angular.module('app.controllers', [])
                 });
             };
         })
-
+        // Forgot Password
         .controller('forgotPwdCtrl', function ($scope, $rootScope, $timeout, $state) {
             $scope.user = {};
             ;
@@ -379,29 +345,255 @@ angular.module('app.controllers', [])
 
         })
 
-     
-        .controller('settingCtrl', function ($scope, $rootScope, $translate, $ionicHistory) {
-            
-            
-        })
+        //Changed password
+        .controller('ChangePwdCtrl', function ($scope, $rootScope, $state, $stateParams) {
+            $scope.user = {};
+            $scope.submitForm = function (isValid) {
+                $scope.showLoading();
+                if (isValid) {
 
-      
-        .controller('HomeCtrl', function ($scope, $rootScope, $state, $ionicSlideBoxDelegate, $timeout) {
-
-
-            var user = 0;
-            user = getStorage('user_id');
-            if (user == 0 || user == null) {
-                $state.go('app.login');
-                return;
-
+                    $scope.user.u_id = getStorage('user_id');
+                    $rootScope.service.post('changepassword', $scope.user, function (res) {
+                        $scope.hideLoading();
+                        if (res.status == 1) {
+                            alert(res.message);
+                            $state.go('app.home');
+                        } else
+                        {
+                            alert(res.message);
+                        }
+                    });
+                }
             }
+        })
 
-            $scope.searchData = {};
+        //Contact Controller
+        .controller('contactCtrl', function ($scope, $rootScope, $state, $stateParams,$ionicPopup) {
+             
+            $scope.data= {};
+            $scope.data.u_id=getStorage('user_id');
+            $scope.user = {};
+            $scope.contacts = {};
+            $rootScope.service.post('getContacts', $scope.data, function (res) {
+                $scope.contacts = angular.fromJson(res.result);
+            });
+            
+            $scope.sendMessage = function () {
+               
+                $scope.data.sender_u_id = $scope.data.u_id;
+                $scope.data.receiver_u_id = $scope.user;
+                
+                $scope.valid = 1;
+                
+                var myPopup = $ionicPopup.show({
+                    templateUrl: 'templates/templates/send_message.html',
+                    title: 'Send Message',
+                    scope: $scope,
+                    buttons: [
+                        {text: 'Cancel'},
+                        {
+                            text: '<b>Send</b>',
+                            type: 'button-positive',
+                            onTap: function (e) {
+                                if (!$scope.data.message) {
+                                    e.preventDefault();
+                                    alert("Please Eneter Message")
+                                } else {
+                                   
+                                    $scope.showLoading();
+                                   
+                                    $rootScope.service.post('sendMessage', $scope.data, function (res) {
+                                        $scope.hideLoading();
+                                        alert(res.status);
+                                        if (res.status == 1) {
+                                            alert(res.message);
+                                            $state.go($state.current, {}, {reload: true});
+                                        } else
+                                        {
+                                            $scope.valid = 0;
+                                            alert(res.message);
+                                        }
+                                    });
+                                    if ($scope.valid == 0)
+                                        e.preventDefault();
+                                }
+                            }
+                        },
+                    ]
+                });
+
+            };
 
         })
 
-       
+        //Send Invitation 
+        .controller('SendInviteCtrl', function ($scope, $rootScope, $state, $ionicHistory) {
+            $scope.groups = {};
+            $rootScope.service.post('groupList', $scope.user, function (res) {
+                $scope.groups = angular.fromJson(res.result);
+            });
+            $scope.user = {};
+
+            $scope.submitForm = function (isValid) {
+
+                if (isValid) {
+                    $scope.showLoading();
+                    $scope.user.userid = getStorage('user_id');
+                    $rootScope.service.post('sendInvitation', $scope.user, function (res) {
+                        $scope.hideLoading();
+                        if (res.status == 1) {
+                            alert(res.message);
+                            $ionicHistory.goBack();
+                        } else
+                        {
+                            alert(res.message);
+                        }
+                    });
+                }
+            }
+        })
+
+        // Receive Invitation 
+        .controller('ReceiveInvitationCtrl', function ($scope, $rootScope, $state, $ionicSlideBoxDelegate, $timeout, $ionicPopup) {
+            $scope.invite = {};
+            $scope.sessionData.u_id = getStorage('user_id');
+            $rootScope.service.post('receiveInvitation', $scope.sessionData, function (data) {
+                $scope.invite = typeof data.result === 'object' ? data.result : null;
+
+            });
+
+            /* Accept Inviation  */
+            $scope.acceptInvitation = function (inv_id, group_id) {
+                $scope.groups = {};
+                $rootScope.service.post('groupList', $scope.user, function (res) {
+                    $scope.groups = angular.fromJson(res.result);
+                });
+                $scope.user = {};
+                $scope.user.username = getStorage('username');
+                $scope.user.inv_id = inv_id;
+                $scope.group = group_id;
+                $scope.valid = 1;
+                var myPopup = $ionicPopup.show({
+                    templateUrl: 'templates/templates/receive_invitation_popup.html',
+                    title: 'Accept Invitation',
+                    scope: $scope,
+                    buttons: [
+                        {text: 'Cancel'},
+                        {
+                            text: '<b>Accept</b>',
+                            type: 'button-positive',
+                            onTap: function (e) {
+                                if (!$scope.user.code) {
+                                    e.preventDefault();
+                                    alert("Please Eneter code.")
+                                } else {
+                                    if (!$scope.user.group_id) {
+                                        $scope.user.group_id = group_id;
+                                    }
+                                    $scope.showLoading();
+                                    $scope.user.u_id = getStorage('user_id');
+                                    $rootScope.service.post('acceptInvitation', $scope.user, function (res) {
+                                        $scope.hideLoading();
+                                        alert(res.status);
+                                        if (res.status == 1) {
+                                            alert(res.message);
+                                            $state.go($state.current, {}, {reload: true});
+                                        } else
+                                        {
+                                            $scope.valid = 0;
+                                            alert(res.message);
+                                        }
+                                    });
+                                    if ($scope.valid == 0)
+                                        e.preventDefault();
+                                }
+                            }
+                        },
+                    ]
+                });
+
+            };
+
+        })
+
+
+
+        .controller('messageCtrl', function ($scope, $rootScope, $translate, $ionicHistory) {
+            
+            $scope.messages = {};
+            $scope.sessionData.u_id = getStorage('user_id');
+            $rootScope.service.post('getMessageList', $scope.sessionData, function (data) {
+                $scope.messages = typeof data.result === 'object' ? data.result : null;
+
+            });
+            
+        })
+        .controller('ReplyMessageCtrl', function ($scope, $rootScope, $location, $translate, $ionicHistory,$ionicPopup) {
+            
+            $scope.messages = {};
+            $scope.data = {};
+            $scope.user_id = getStorage("user_id");
+            $scope.sessionData.m_id = $location.search().msg_id;
+            $rootScope.service.post('getMessageDetail', $scope.sessionData, function (data) {
+                $scope.messages = typeof data.result === 'object' ? data.result : null;
+
+            });
+            $scope.replyMessage = function () {
+               
+                $scope.data.u_id = $scope.user_id;
+                $scope.data.m_ref_id = $location.search().msg_id;
+                
+                $scope.valid = 1;
+                
+                var myPopup = $ionicPopup.show({
+                    templateUrl: 'templates/templates/send_message.html',
+                    title: 'Send Message',
+                    scope: $scope,
+                    buttons: [
+                        {text: 'Cancel'},
+                        {
+                            text: '<b>Send</b>',
+                            type: 'button-positive',
+                            onTap: function (e) {
+                                if (!$scope.data.message) {
+                                    e.preventDefault();
+                                    alert("Please Eneter Message")
+                                } else {
+                                   
+                                    $scope.showLoading();
+                                   
+                                    $rootScope.service.post('replyMessage', $scope.data, function (res) {
+                                        $scope.hideLoading();
+                                        alert(res.status);
+                                        if (res.status == 1) {
+                                            alert(res.message);
+                                            $state.go($state.current, {}, {reload: true});
+                                        } else
+                                        {
+                                            $scope.valid = 0;
+                                            alert(res.message);
+                                        }
+                                    });
+                                    if ($scope.valid == 0)
+                                        e.preventDefault();
+                                }
+                            }
+                        },
+                    ]
+                });
+
+            };
+            
+        })
+        .controller('settingCtrl', function ($scope, $rootScope, $translate, $ionicHistory) {
+
+
+        })
+
+
+
+
+
 
         .controller('AgentsCtrl', function ($scope, $rootScope, $ionicPopup, $timeout) {
             if (!$rootScope.agent) {
@@ -486,20 +678,20 @@ angular.module('app.controllers', [])
             $scope.title = $scope.translations[$stateParams.page];
             $scope.src = Config.baseUrl + Config.getLocale() + frame.src;
         })
-        .controller('checkInvitationCtrl', function ($scope, $rootScope, $state, $ionicSlideBoxDelegate, $timeout,$ionicPopup) {
-           
-            $scope.groups={};
+        .controller('checkInvitationCtrl', function ($scope, $rootScope, $state, $ionicSlideBoxDelegate, $timeout, $ionicPopup) {
+
+            $scope.groups = {};
             $rootScope.service.post('groupList', $scope.user, function (res) {
                 $scope.groups = angular.fromJson(res.result);
             });
             $scope.user = {};
             $scope.user.username = getStorage('username');
             $scope.submitForm = function (isValid) {
-               
+
                 if (isValid) {
                     $scope.showLoading();
                     $scope.user.userid = getStorage('user_id');
-                    
+
                     $rootScope.service.post('acceptInvitation', $scope.user, function (res) {
                         $scope.hideLoading();
                         if (res.status == 1) {
@@ -511,67 +703,6 @@ angular.module('app.controllers', [])
                     });
                 }
             }
-        })
-        .controller('ReceiveInvitationCtrl', function ($scope, $rootScope, $state, $ionicSlideBoxDelegate, $timeout,$ionicPopup) {
-                $scope.invite ={};
-                $scope.sessionData.u_id = getStorage('user_id');
-                $rootScope.service.post('receiveInvitation', $scope.sessionData, function (data) {
-                    $scope.invite = typeof data.result === 'object' ? data.result : null;
-                   
-                });
-               
-               
-                $scope.acceptInvitation = function (inv_id,group_id) {
-                    $scope.groups={};
-                    $rootScope.service.post('groupList', $scope.user, function (res) {
-                        $scope.groups = angular.fromJson(res.result);
-                    });
-                    $scope.user = {};
-                    $scope.user.username = getStorage('username');
-                    $scope.user.inv_id = inv_id;
-                    $scope.group = group_id;
-                    $scope.valid = 1;
-                    var myPopup = $ionicPopup.show({
-                        templateUrl: 'templates/templates/receive_invitation_popup.html',
-                        title: 'Accept Invitation',
-                        scope: $scope,
-                        buttons: [
-                            {text: 'Cancel'},
-                            {
-                                text: '<b>Accept</b>',
-                                type: 'button-positive',
-                                onTap: function (e) {
-                                    if (!$scope.user.code) {
-                                        e.preventDefault();
-                                        alert("Please Eneter code.")
-                                    } else {
-                                         if (!$scope.user.group_id) {
-                                             $scope.user.group_id=group_id;
-                                         }
-                                        $scope.showLoading();
-                                        $scope.user.u_id = getStorage('user_id');
-                                        $rootScope.service.post('acceptInvitation', $scope.user, function (res) {
-                                            $scope.hideLoading();
-                                            alert(res.status);
-                                            if (res.status == 1) {
-                                                alert(res.message);
-                                                $state.go($state.current, {}, {reload: true});
-                                            } else
-                                            {
-                                               $scope.valid =0;
-                                                alert(res.message);
-                                            }
-                                        });
-                                        if($scope.valid == 0)
-                                            e.preventDefault();
-                                    }
-                                }
-                            },
-                        ]
-                    });
-                    
-                };
-                
         })
         .controller('FrameCtrl', function ($scope, $sce, $stateParams) {
             $scope.trustSrc = function (src) {
