@@ -1,4 +1,4 @@
-function Service($rootScope, $http, $ionicPopup) {
+function Service($rootScope, $http, $ionicPopup,$ionicLoading) {
 
     var api = {
         website: 'webservice/api/websiteinfo',
@@ -79,7 +79,7 @@ function Service($rootScope, $http, $ionicPopup) {
             }
             showError = true;
             alert('Network Error\r\n Please check your network connection!');
-            
+            $ionicLoading.hide();
              $ionicPopup.alert({
              title: "Network Error",
              template:"Please check your network connection!",

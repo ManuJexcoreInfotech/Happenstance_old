@@ -7,7 +7,8 @@ angular.module('app.controllers', [])
                 $ionicPopup, $timeout, $state,
                 $ionicSideMenuDelegate, $translate,
                 $ionicPlatform, $ionicHistory, Color, $cordovaGeolocation) {
-
+            
+            
             var posOptions = {timeout: 10000, enableHighAccuracy: false};
             $cordovaGeolocation
                     .getCurrentPosition(posOptions)
