@@ -1,11 +1,14 @@
 <ion-view view-title="REPLY MESSAGE">
-	 <ion-nav-title>
+    <ion-nav-title>
         <img class="title-image" src="img/logo.png" />
     </ion-nav-title>
     <ion-content padding="10">
-        <div class="list">
-            <div class="" ng-repeat="data in messages " >
-                <h4 class="width-80" ng-class="data.msg_sen_id==user_id ? 'left':'right'">{{data.msg_message}}</h4>
+        <div class="list message-container">
+            <div class="" ng-repeat="data in messages" >
+                <h4 class="width-80" ng-class="data.msg_sen_id == user_id ? 'left' : 'right'">{{data.msg_message}}</h4>
+            </div>
+            <div class="" ng-show="!messages.length" >
+                <h4 class="read" >No record Found</h4>
             </div>
         </div>
         <div class="list">
@@ -17,7 +20,7 @@
                     <button type="submit" class="button button-block button-{{appColor}}" ng-click="replyMessage()"> Reply </button>
                 </div>
                 <div class="padding onebtncss">
-                    <button type="submit" class="button button-block button-dark"> Home </button>
+                    <a href="#app/messages" class="button button-block button-dark" ng-click=""> Back </a>
                 </div>
             </form>
         </div>

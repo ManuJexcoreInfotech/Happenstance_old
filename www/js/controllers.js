@@ -7,8 +7,8 @@ angular.module('app.controllers', [])
                 $ionicPopup, $timeout, $state,
                 $ionicSideMenuDelegate, $translate,
                 $ionicPlatform, $ionicHistory, Color, $cordovaGeolocation) {
-            
-            
+
+
             var posOptions = {timeout: 10000, enableHighAccuracy: false};
             $cordovaGeolocation
                     .getCurrentPosition(posOptions)
@@ -24,6 +24,9 @@ angular.module('app.controllers', [])
             $scope.appColor = Color.AppColor;
             $scope.isIOS = ionic.Platform.isIPad() || ionic.Platform.isIOS();
 
+            $scope.$on('refreshParent', function () {
+                $state.reload(); //reload the state
+            })
             // Loading
             $scope.showLoading = function () {
                 $ionicLoading.show({
@@ -188,7 +191,7 @@ angular.module('app.controllers', [])
 
         })
         // Home Controller
-        .controller('HomeCtrl', function ($scope, $rootScope, $state, $ionicSlideBoxDelegate, $timeout) {
+        .controller('HomeCtrl', function ($scope, $rootScope, $state, $cordovaGeolocation, $timeout) {
 
 
             var user = 0;
@@ -198,8 +201,36 @@ angular.module('app.controllers', [])
                 return;
 
             }
-
-            $scope.searchData = {};
+            $scope.sessionData = {};
+            $scope.sessionData.user_id = user;
+            $rootScope.service.post('getUser', $scope.sessionData, function (user) {
+                $scope.user = typeof user.result === 'object' ? user.result : null;
+               
+                $scope.contact = user.contact;
+                $scope.invite = user.invite;
+                $scope.notification = user.message;
+            });
+            $scope.dat={};
+            $scope.dat.u_id=user;
+            $scope.publishLocation = function(){
+                var posOptions = {timeout: 10000, enableHighAccuracy: false};
+                $cordovaGeolocation
+                    .getCurrentPosition(posOptions)
+                    .then(function (position) {
+                        $scope.dat.latitude = position.coords.latitude;
+                        $scope.dat.longitude = position.coords.longitude;
+                        $scope.showLoading();
+                        $rootScope.service.post('updateLocation', $scope.dat, function (res) {
+                            $scope.hideLoading();
+                            if (res.status == 1) {
+                                alert("Your Location Publish Successfully.;")
+                            }
+                        });
+                        
+                    }, function (err) {
+                        console.log(err);
+                    });
+            };
 
         })
         // Login Controller
@@ -369,27 +400,28 @@ angular.module('app.controllers', [])
         })
 
         //Contact Controller
-        .controller('contactCtrl', function ($scope, $rootScope, $state, $stateParams,$ionicPopup) {
-             
-            $scope.data= {};
-            $scope.data.u_id=getStorage('user_id');
+        .controller('contactCtrl', function ($scope, $rootScope, $state, $stateParams, $ionicPopup) {
+
+            $scope.data = {};
+            $scope.data.u_id = getStorage('user_id');
             $scope.user = {};
             $scope.contacts = {};
             $rootScope.service.post('getContacts', $scope.data, function (res) {
                 $scope.contacts = angular.fromJson(res.result);
             });
-            
+
             $scope.sendMessage = function () {
-               
+
                 $scope.data.sender_u_id = $scope.data.u_id;
                 $scope.data.receiver_u_id = $scope.user;
-                
+
                 $scope.valid = 1;
-                
+
                 var myPopup = $ionicPopup.show({
                     templateUrl: 'templates/templates/send_message.html',
                     title: 'Send Message',
                     scope: $scope,
+                    state: $state,
                     buttons: [
                         {text: 'Cancel'},
                         {
@@ -400,14 +432,15 @@ angular.module('app.controllers', [])
                                     e.preventDefault();
                                     alert("Please Eneter Message")
                                 } else {
-                                   
+
                                     $scope.showLoading();
-                                   
+
                                     $rootScope.service.post('sendMessage', $scope.data, function (res) {
                                         $scope.hideLoading();
-                                        
+
                                         if (res.status == 1) {
                                             alert(res.message);
+                                           
                                             $state.go($state.current, {}, {reload: true});
                                         } else
                                         {
@@ -455,7 +488,7 @@ angular.module('app.controllers', [])
         })
 
         // Receive Invitation 
-        .controller('ReceiveInvitationCtrl', function ($scope, $rootScope, $state, $ionicSlideBoxDelegate, $timeout, $ionicPopup) {
+        .controller('ReceiveInvitationCtrl', function ($scope, $rootScope, $state,  $ionicPopup,$window) {
             $scope.invite = {};
             $scope.sessionData.u_id = getStorage('user_id');
             $rootScope.service.post('receiveInvitation', $scope.sessionData, function (data) {
@@ -495,10 +528,11 @@ angular.module('app.controllers', [])
                                     $scope.user.u_id = getStorage('user_id');
                                     $rootScope.service.post('acceptInvitation', $scope.user, function (res) {
                                         $scope.hideLoading();
-                                        
+
                                         if (res.status == 1) {
                                             alert(res.message);
                                             $state.go($state.current, {}, {reload: true});
+                                            
                                         } else
                                         {
                                             $scope.valid = 0;
@@ -520,32 +554,37 @@ angular.module('app.controllers', [])
 
 
         .controller('messageCtrl', function ($scope, $rootScope, $translate, $ionicHistory) {
-            
+
             $scope.messages = {};
             $scope.sessionData.u_id = getStorage('user_id');
             $rootScope.service.post('getMessageList', $scope.sessionData, function (data) {
                 $scope.messages = typeof data.result === 'object' ? data.result : null;
 
             });
-            
+
         })
-        .controller('ReplyMessageCtrl', function ($scope, $rootScope, $location, $translate, $ionicHistory,$ionicPopup) {
-            
+        .controller('ReplyMessageCtrl', function ($scope, $rootScope,$state,$location, $ionicHistory, $ionicPopup) {
+
             $scope.messages = {};
             $scope.data = {};
             $scope.user_id = getStorage("user_id");
-            $scope.sessionData.m_id = $location.search().msg_id;
+            if($location.search().msg_id)
+            {
+                removeStorage('m_id')
+                setStorage('m_id',$location.search().msg_id);
+            }
+            $scope.sessionData.m_id = getStorage("m_id"); // $location.search().msg_id;
             $rootScope.service.post('getMessageDetail', $scope.sessionData, function (data) {
                 $scope.messages = typeof data.result === 'object' ? data.result : null;
 
             });
             $scope.replyMessage = function () {
-               
+
                 $scope.data.u_id = $scope.user_id;
-                $scope.data.m_ref_id = $location.search().msg_id;
-                
+                $scope.data.m_ref_id = $location.search().msg_id ;//getStorage("m_id");
+              
                 $scope.valid = 1;
-                
+
                 var myPopup = $ionicPopup.show({
                     templateUrl: 'templates/templates/send_message.html',
                     title: 'Send Message',
@@ -558,25 +597,21 @@ angular.module('app.controllers', [])
                             onTap: function (e) {
                                 if (!$scope.data.message) {
                                     e.preventDefault();
-                                    alert("Please Eneter Message")
+                                    alert("Please Eneter Message");
                                 } else {
-                                   
                                     $scope.showLoading();
-                                   
                                     $rootScope.service.post('replyMessage', $scope.data, function (res) {
                                         $scope.hideLoading();
-                                        
                                         if (res.status == 1) {
                                             alert(res.message);
-                                            $state.go($state.current, {}, {reload: true});
+                                            $state.reload();
                                         } else
                                         {
                                             $scope.valid = 0;
                                             alert(res.message);
                                         }
                                     });
-                                    if ($scope.valid == 0)
-                                        e.preventDefault();
+                                    e.preventDefault();
                                 }
                             }
                         },
@@ -584,7 +619,7 @@ angular.module('app.controllers', [])
                 });
 
             };
-            
+
         })
         .controller('settingCtrl', function ($scope, $rootScope, $translate, $ionicHistory) {
 

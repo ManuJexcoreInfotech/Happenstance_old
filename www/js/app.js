@@ -9,7 +9,7 @@ angular.module('app', [
     'app.controllers', 'app.filters', 'ionicLazyLoad', 'slickCarousel'
 ])
 
-        .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup) {
+        .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup,$ionicHistory) {
             $ionicPlatform.ready(function () {
                 // Hide the accessory bar by default
 //                if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -20,6 +20,9 @@ angular.module('app', [
                     StatusBar.styleDefault();
                 }
             });
+            $rootScope.backHome = function() {
+                
+              }
             Service($rootScope, $http, $ionicPopup);
         })
         .constant("Config", {
@@ -46,13 +49,22 @@ angular.module('app', [
         .constant("PushNoti", {
             "senderID": "senderID",
         })
-        .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $translateProvider) {
+        .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $translateProvider,$provide) {
             $ionicConfigProvider.backButton.text('').icon('ion-chevron-left');
             $ionicConfigProvider.scrolling.jsScrolling(false);
             $ionicConfigProvider.tabs.position('bottom');
             $ionicConfigProvider.form.checkbox('square');
             $ionicConfigProvider.views.transition('none');  //('fade-in')
-
+              $provide.decorator('$state', function($delegate, $stateParams) {
+                    $delegate.forceReload = function() {
+                        return $delegate.go($delegate.current, $stateParams, {
+                            reload: true,
+                            inherit: false,
+                            notify: true
+                        });
+                    };
+                    return $delegate;
+                });
             $stateProvider
                     .state('app', {
                         url: '/app',

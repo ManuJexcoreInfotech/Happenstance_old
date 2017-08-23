@@ -14,6 +14,7 @@ function Service($rootScope, $http, $ionicPopup,$ionicLoading) {
         getMessageList: 'webservice/api/getMessageList',
         forgotPassword: 'webservice/api/forgotPassword',
         changepassword: 'webservice/api/changePassword',
+        updateLocation: 'webservice/api/updateLocation',
         logout: 'webservice/api/logout',
         login: 'webservice/api/login',
         register: 'webservice/api/register',
