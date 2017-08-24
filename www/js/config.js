@@ -3,8 +3,8 @@
 window.Config = {
     isRelease: true,
     debug: true,
-    baseUrl: 'http://18.221.0.116/admin/index.php/',
-//    baseUrl: 'http://pr.veba.co/~shubantech/happenstance/',
+//    baseUrl: 'http://192.168.1.114/code/happenstance/',
+    baseUrl: 'http://pr.veba.co/~shubantech/happenstance/',
     getRememberme: function () {
         return localStorage['rememberme'] || true;
     },
