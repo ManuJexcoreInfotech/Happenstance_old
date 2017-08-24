@@ -6,8 +6,19 @@ angular.module('app.controllers', [])
                 $ionicTabsDelegate, $ionicLoading,
                 $ionicPopup, $timeout, $state,
                 $ionicSideMenuDelegate, $translate,
-                $ionicPlatform, $ionicHistory, Color, $cordovaGeolocation) {
+                $ionicPlatform, $ionicHistory, Color, $cordovaGeolocation, $cordovaDevice) {
 
+            $ionicPlatform.ready(function () {
+                $scope.$apply(function () {
+
+                    var device = $cordovaDevice.getDevice();
+                    console.log(device);
+                    $scope.manufacturer = device.manufacturer;
+                    $scope.model = device.model;
+                    $scope.platform = device.platform;
+                    $scope.uuid = device.uuid;
+                });
+            });
 
             var posOptions = {timeout: 10000, enableHighAccuracy: false};
             $cordovaGeolocation
@@ -205,31 +216,31 @@ angular.module('app.controllers', [])
             $scope.sessionData.user_id = user;
             $rootScope.service.post('getUser', $scope.sessionData, function (user) {
                 $scope.user = typeof user.result === 'object' ? user.result : null;
-               
+
                 $scope.contact = user.contact;
                 $scope.invite = user.invite;
                 $scope.notification = user.message;
             });
-            $scope.dat={};
-            $scope.dat.u_id=user;
-            $scope.publishLocation = function(){
+            $scope.dat = {};
+            $scope.dat.u_id = user;
+            $scope.publishLocation = function () {
                 var posOptions = {timeout: 10000, enableHighAccuracy: false};
                 $cordovaGeolocation
-                    .getCurrentPosition(posOptions)
-                    .then(function (position) {
-                        $scope.dat.latitude = position.coords.latitude;
-                        $scope.dat.longitude = position.coords.longitude;
-                        $scope.showLoading();
-                        $rootScope.service.post('updateLocation', $scope.dat, function (res) {
-                            $scope.hideLoading();
-                            if (res.status == 1) {
-                                alert("Your Location Publish Successfully.;")
-                            }
+                        .getCurrentPosition(posOptions)
+                        .then(function (position) {
+                            $scope.dat.latitude = position.coords.latitude;
+                            $scope.dat.longitude = position.coords.longitude;
+                            $scope.showLoading();
+                            $rootScope.service.post('updateLocation', $scope.dat, function (res) {
+                                $scope.hideLoading();
+                                if (res.status == 1) {
+                                    alert("Your Location Publish Successfully.;")
+                                }
+                            });
+
+                        }, function (err) {
+                            console.log(err);
                         });
-                        
-                    }, function (err) {
-                        console.log(err);
-                    });
             };
 
         })
@@ -440,7 +451,7 @@ angular.module('app.controllers', [])
 
                                         if (res.status == 1) {
                                             alert(res.message);
-                                           
+
                                             $state.go($state.current, {}, {reload: true});
                                         } else
                                         {
@@ -488,7 +499,7 @@ angular.module('app.controllers', [])
         })
 
         // Receive Invitation 
-        .controller('ReceiveInvitationCtrl', function ($scope, $rootScope, $state,  $ionicPopup,$window) {
+        .controller('ReceiveInvitationCtrl', function ($scope, $rootScope, $state, $ionicPopup, $window) {
             $scope.invite = {};
             $scope.sessionData.u_id = getStorage('user_id');
             $rootScope.service.post('receiveInvitation', $scope.sessionData, function (data) {
@@ -532,7 +543,7 @@ angular.module('app.controllers', [])
                                         if (res.status == 1) {
                                             alert(res.message);
                                             $state.go($state.current, {}, {reload: true});
-                                            
+
                                         } else
                                         {
                                             $scope.valid = 0;
@@ -563,15 +574,15 @@ angular.module('app.controllers', [])
             });
 
         })
-        .controller('ReplyMessageCtrl', function ($scope, $rootScope,$state,$location, $ionicHistory, $ionicPopup) {
+        .controller('ReplyMessageCtrl', function ($scope, $rootScope, $state, $location, $ionicHistory, $ionicPopup) {
 
             $scope.messages = {};
             $scope.data = {};
             $scope.user_id = getStorage("user_id");
-            if($location.search().msg_id)
+            if ($location.search().msg_id)
             {
                 removeStorage('m_id')
-                setStorage('m_id',$location.search().msg_id);
+                setStorage('m_id', $location.search().msg_id);
             }
             $scope.sessionData.m_id = getStorage("m_id"); // $location.search().msg_id;
             $rootScope.service.post('getMessageDetail', $scope.sessionData, function (data) {
@@ -581,8 +592,8 @@ angular.module('app.controllers', [])
             $scope.replyMessage = function () {
 
                 $scope.data.u_id = $scope.user_id;
-                $scope.data.m_ref_id = $location.search().msg_id ;//getStorage("m_id");
-              
+                $scope.data.m_ref_id = $location.search().msg_id;//getStorage("m_id");
+
                 $scope.valid = 1;
 
                 var myPopup = $ionicPopup.show({
