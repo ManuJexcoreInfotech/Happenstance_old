@@ -212,6 +212,37 @@ angular.module('app.controllers', [])
                 return;
 
             }
+			$scope.invitation = function(){
+				$scope.showLoading();
+				$scope.data = {};
+				$scope.sessionData.u_id = getStorage('user_id');
+				
+				$rootScope.service.post('getInvitationDetail', $scope.sessionData, function (user) {
+					$scope.data = typeof user.result === 'object' ? user.result : null;
+					$scope.hideLoading();
+					$ionicPopup.show({
+						template: '<h3>You Have One Invitation From '+$scope.data.inv_name+'</h3>',
+						title: 'Receive Inviation',
+						scope: $scope,
+						state: $state,
+						buttons: [
+							{text: 'Cancel'},
+							{
+								text: '<b>Go to Invitation</b>',
+								type: 'button-positive',
+								onTap: function (e) {
+									$state.go('app.receive_invitation');
+								}
+							},
+						]
+					});
+						
+				});
+				
+				
+			}
+			
+			
             $scope.sessionData = {};
             $scope.sessionData.user_id = user;
             $rootScope.service.post('getUser', $scope.sessionData, function (user) {
@@ -248,35 +279,7 @@ angular.module('app.controllers', [])
                         });
             };
 		
-			$scope.invitation = function(){
-				$scope.showLoading();
-				$scope.data = {};
-				$scope.sessionData.u_id = getStorage('user_id');
-				
-				$rootScope.service.post('getInvitationDetail', $scope.sessionData, function (user) {
-					$scope.data = typeof user.result === 'object' ? user.result : null;
-					$scope.hideLoading();
-					$ionicPopup.show({
-						template: '<h3>You Have One Invitation From '+$scope.data.inv_name+'</h3>',
-						title: 'Receive Inviation',
-						scope: $scope,
-						state: $state,
-						buttons: [
-							{text: 'Cancel'},
-							{
-								text: '<b>Go to Invitation</b>',
-								type: 'button-positive',
-								onTap: function (e) {
-									$state.go('app.receive_invitation');
-								}
-							},
-						]
-					});
-						
-				});
-				
-				
-			}
+			
 			
 			
 
