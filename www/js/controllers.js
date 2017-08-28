@@ -213,6 +213,7 @@ angular.module('app.controllers', [])
 
             }
 			$scope.invitation = function(){
+				alert("You have an invitation");
 				$scope.showLoading();
 				$scope.data = {};
 				$scope.sessionData.u_id = getStorage('user_id');
