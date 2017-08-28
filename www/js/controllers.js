@@ -249,12 +249,13 @@ angular.module('app.controllers', [])
             };
 		
 			$scope.invitation = function(){
-				
+				$scope.showLoading();
 				$scope.data = {};
 				$scope.sessionData.u_id = getStorage('user_id');
+				
 				$rootScope.service.post('getInvitationDetail', $scope.sessionData, function (user) {
 					$scope.data = typeof user.result === 'object' ? user.result : null;
-					
+					$scope.hideLoading();
 					$ionicPopup.show({
 						template: '<h3>You Have One Invitation From '+$scope.data.inv_name+'</h3>',
 						title: 'Receive Inviation',
