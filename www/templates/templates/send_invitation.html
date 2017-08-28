@@ -23,7 +23,7 @@
                     <h2 class="leftside">Group </h2>
                     <!--<input required ng-model="user.group" class="inputbrd" name="group" type="text" placeholder="Group" form-validate-after>-->
                     <select name="group_id" ng-model="user.group_id" class="inputbrd" >
-                        <option ng-repeat="x in groups" value="{{x.g_id}}">{{x.g_name}}</option>
+                        <option ng-repeat="x in groups"  value="{{x.g_id}}">{{x.g_name}}</option>
                     </select>
                 </label>
                 <span ng-message class="warning-message-normal" ng-show="postForm.group_id.$error.required">Required</span>

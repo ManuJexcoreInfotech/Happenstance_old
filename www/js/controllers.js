@@ -202,9 +202,9 @@ angular.module('app.controllers', [])
 
         })
         // Home Controller
-        .controller('HomeCtrl', function ($scope, $rootScope, $state, $cordovaGeolocation, $timeout) {
+        .controller('HomeCtrl', function ($scope, $rootScope, $state, $cordovaGeolocation, $timeout,$ionicPopup) {
 
-
+			
             var user = 0;
             user = getStorage('user_id');
             if (user == 0 || user == null) {
@@ -220,6 +220,11 @@ angular.module('app.controllers', [])
                 $scope.contact = user.contact;
                 $scope.invite = user.invite;
                 $scope.notification = user.message;
+				if($scope.invite > 0)
+				{
+					$scope.invitation();
+				}
+					
             });
             $scope.dat = {};
             $scope.dat.u_id = user;
@@ -242,6 +247,37 @@ angular.module('app.controllers', [])
                             console.log(err);
                         });
             };
+		
+			$scope.invitation = function(){
+				
+				$scope.data = {};
+				$scope.sessionData.u_id = getStorage('user_id');
+				$rootScope.service.post('getInvitationDetail', $scope.sessionData, function (user) {
+					$scope.data = typeof user.result === 'object' ? user.result : null;
+					
+					$ionicPopup.show({
+						template: '<h3>You Have One Invitation From '+$scope.data.inv_name+'</h3>',
+						title: 'Receive Inviation',
+						scope: $scope,
+						state: $state,
+						buttons: [
+							{text: 'Cancel'},
+							{
+								text: '<b>Go to Invitation</b>',
+								type: 'button-positive',
+								onTap: function (e) {
+									$state.go('app.receive_invitation');
+								}
+							},
+						]
+					});
+						
+				});
+				
+				
+			}
+			
+			
 
         })
         // Login Controller
@@ -473,10 +509,11 @@ angular.module('app.controllers', [])
 
         //Send Invitation 
         .controller('SendInviteCtrl', function ($scope, $rootScope, $state, $ionicHistory) {
-            $scope.groups = {};
+            $scope.groups = [];
             $rootScope.service.post('groupList', $scope.user, function (res) {
-                $scope.groups = angular.fromJson(res.result);
+                $scope.groups = res.result;
             });
+			
             $scope.user = {};
 
             $scope.submitForm = function (isValid) {

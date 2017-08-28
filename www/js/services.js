@@ -8,6 +8,7 @@ function Service($rootScope, $http, $ionicPopup,$ionicLoading) {
         sendInvitation: 'webservice/api/sendInvistation',
         receiveInvitation: 'webservice/api/receiveInvitation',
         acceptInvitation: 'webservice/api/acceptInvitation',
+        getInvitationDetail: 'webservice/api/getInvitationDetail',
         sendMessage: 'webservice/api/sendMessage',
         replyMessage: 'webservice/api/replyMessage',
         getMessageDetail: 'webservice/api/getMessageDetail',

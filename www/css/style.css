@@ -328,3 +328,4 @@ h2.unread{color:#fff!important;}
 .width-80.left{float:left;background:rgb(228, 239, 205);text-align:right;border-radius:10px 10px 10px 0px;}
 .width-80.right{float:right;background:#acd435;text-align:left;border-radius:10px 10px 0 10px ;}
 .message-container{max-height:60%;overflow:scroll;}
+select option:empty { display:none }
