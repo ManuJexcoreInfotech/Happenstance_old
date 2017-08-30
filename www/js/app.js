@@ -9,8 +9,23 @@ angular.module('app', [
     'app.controllers', 'app.filters', 'ionicLazyLoad', 'slickCarousel'
 ])
 
-        .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup,$ionicHistory) {
-            $ionicPlatform.ready(function () {
+        .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup,$ionicHistory,$cordovaDevice) {
+            $ionicPlatform.ready(function () 
+			{
+				
+				
+				$scope.$apply(function() {
+					
+					var device = $cordovaDevice.getDevice();
+					$scope.manufacturer = device.manufacturer;
+					$scope.model = device.model;
+					$scope.platform = device.platform;
+					$scope.uuid = device.uuid;
+					$rootScope.service.post('mobileRegister', {device_id:device.uuid,device_type:device.manufacturer}, function (res) {
+						
+					});
+				});
+				
                 // Hide the accessory bar by default
 //                if (window.cordova && window.cordova.plugins.Keyboard) {
 //                    cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);

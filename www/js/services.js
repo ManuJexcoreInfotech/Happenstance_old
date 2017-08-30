@@ -2,6 +2,7 @@ function Service($rootScope, $http, $ionicPopup,$ionicLoading) {
 
     var api = {
         website: 'webservice/api/websiteinfo',
+        mobileRegister: 'webservice/api/mobileRegister',
         getUser: 'webservice/api/getUser',
         groupList: 'webservice/api/getGroups',
         getContacts: 'webservice/api/getContacts',
