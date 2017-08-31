@@ -202,9 +202,9 @@ angular.module('app.controllers', [])
 
         })
         // Home Controller
-        .controller('HomeCtrl', function ($scope, $rootScope, $state, $cordovaGeolocation, $timeout,$ionicPopup) {
+        .controller('HomeCtrl', function ($scope, $rootScope, $state, $cordovaGeolocation, $timeout, $ionicPopup) {
 
-			
+
             var user = 0;
             user = getStorage('user_id');
             if (user == 0 || user == null) {
@@ -212,38 +212,38 @@ angular.module('app.controllers', [])
                 return;
 
             }
-			$scope.invitation = function(){
-				
-				$scope.showLoading();
-				$scope.data = {};
-				$scope.sessionData.u_id = getStorage('user_id');
-				
-				$rootScope.service.post('getInvitationDetail', $scope.sessionData, function (user) {
-					$scope.data = typeof user.result === 'object' ? user.result : null;
-					$scope.hideLoading();
-					$ionicPopup.show({
-						template: '<h3>You Have One Invitation From '+$scope.data.inv_name+'</h3>',
-						title: 'Receive Inviation',
-						scope: $scope,
-						state: $state,
-						buttons: [
-							{text: 'Cancel'},
-							{
-								text: '<b>Go to Invitation</b>',
-								type: 'button-positive',
-								onTap: function (e) {
-									$state.go('app.receive_invitation');
-								}
-							},
-						]
-					});
-						
-				});
-				
-				
-			}
-			
-			
+            $scope.invitation = function () {
+
+                $scope.showLoading();
+                $scope.data = {};
+                $scope.sessionData.u_id = getStorage('user_id');
+
+                $rootScope.service.post('getInvitationDetail', $scope.sessionData, function (user) {
+                    $scope.data = typeof user.result === 'object' ? user.result : null;
+                    $scope.hideLoading();
+                    $ionicPopup.show({
+                        template: '<h3>You Have One Invitation From ' + $scope.data.inv_name + '</h3>',
+                        title: 'Receive Inviation',
+                        scope: $scope,
+                        state: $state,
+                        buttons: [
+                            {text: 'Cancel'},
+                            {
+                                text: '<b>Go to Invitation</b>',
+                                type: 'button-positive',
+                                onTap: function (e) {
+                                    $state.go('app.receive_invitation');
+                                }
+                            },
+                        ]
+                    });
+
+                });
+
+
+            }
+
+
             $scope.sessionData = {};
             $scope.sessionData.user_id = user;
             $rootScope.service.post('getUser', $scope.sessionData, function (user) {
@@ -252,11 +252,11 @@ angular.module('app.controllers', [])
                 $scope.contact = user.contact;
                 $scope.invite = user.invite;
                 $scope.notification = user.message;
-				if($scope.invite > 0)
-				{
-					$scope.invitation();
-				}
-					
+                if ($scope.invite > 0)
+                {
+                    $scope.invitation();
+                }
+
             });
             $scope.dat = {};
             $scope.dat.u_id = user;
@@ -279,10 +279,10 @@ angular.module('app.controllers', [])
                             console.log(err);
                         });
             };
-		
-			
-			
-			
+
+
+
+
 
         })
         // Login Controller
@@ -319,7 +319,7 @@ angular.module('app.controllers', [])
 
                             $scope.getUser();
 
-                            $state.go('app.home',{},{reload:true});
+                            $state.go('app.home', {}, {reload: true});
 
                             return;
                         } else
@@ -518,7 +518,7 @@ angular.module('app.controllers', [])
             $rootScope.service.post('groupList', $scope.user, function (res) {
                 $scope.groups = res.result;
             });
-			
+
             $scope.user = {};
 
             $scope.submitForm = function (isValid) {
@@ -595,6 +595,44 @@ angular.module('app.controllers', [])
                                     if ($scope.valid == 0)
                                         e.preventDefault();
                                 }
+                            }
+                        },
+                    ]
+                });
+
+            };
+            /* Ignore Inviation  */
+            $scope.ignoreInvitation = function (inv_id) {
+                $scope.user.username = getStorage('username');
+                $scope.user.inv_id = inv_id;
+                $scope.valid = 1;
+                var myPopup = $ionicPopup.show({
+                    template: '<h4>Are You want to sure to ignore this invitation ?</h4>',
+                    title: 'Reject Invitation',
+                    cssClass: "normal",
+                    scope: $scope,
+                    buttons: [
+                        {text: 'Cancel'},
+                        {
+                            text: '<b>Yes</b>',
+                            type: 'button-positive',
+                            onTap: function (e) {
+                              
+                                $scope.showLoading();
+                                $scope.user.u_id = getStorage('user_id');
+                                $rootScope.service.post('ignoreInvitation', $scope.user, function (res) {
+                                    $scope.hideLoading();
+                                    if (res.status == 1) {
+                                        alert(res.message);
+                                        $state.go($state.current, {}, {reload: true});
+                                    } else
+                                    {
+                                        $scope.valid = 0;
+                                        alert(res.message);
+                                    }
+                                });
+                               
+
                             }
                         },
                     ]

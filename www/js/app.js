@@ -9,23 +9,21 @@ angular.module('app', [
     'app.controllers', 'app.filters', 'ionicLazyLoad', 'slickCarousel'
 ])
 
-        .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup,$ionicHistory,$cordovaDevice) {
-            $ionicPlatform.ready(function () 
-			{
-				
-				
-				$scope.$apply(function() {
-					
-					var device = $cordovaDevice.getDevice();
-					$scope.manufacturer = device.manufacturer;
-					$scope.model = device.model;
-					$scope.platform = device.platform;
-					$scope.uuid = device.uuid;
-					$rootScope.service.post('mobileRegister', {device_id:device.uuid,device_type:device.manufacturer}, function (res) {
-						
-					});
-				});
-				
+        .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup, $ionicHistory, $cordovaDevice) {
+            $ionicPlatform.ready(function ()
+            {
+                $rootScope.$apply(function () {
+
+                    var device = $cordovaDevice.getDevice();
+                    $rootScope.manufacturer = device.manufacturer;
+                    $rootScope.model = device.model;
+                    $rootScope.platform = device.platform;
+                    $rootScope.uuid = device.uuid;
+                    $rootScope.service.post('mobileRegister', {device_id: device.uuid, device_type: device.manufacturer}, function (res) {
+                           console.log(res)
+                    });
+                });
+
                 // Hide the accessory bar by default
 //                if (window.cordova && window.cordova.plugins.Keyboard) {
 //                    cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -35,9 +33,9 @@ angular.module('app', [
                     StatusBar.styleDefault();
                 }
             });
-            $rootScope.backHome = function() {
-                
-              }
+            $rootScope.backHome = function () {
+
+            }
             Service($rootScope, $http, $ionicPopup);
         })
         .constant("Config", {
@@ -64,22 +62,22 @@ angular.module('app', [
         .constant("PushNoti", {
             "senderID": "senderID",
         })
-        .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $translateProvider,$provide) {
+        .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $translateProvider, $provide) {
             $ionicConfigProvider.backButton.text('').icon('ion-chevron-left');
             $ionicConfigProvider.scrolling.jsScrolling(false);
             $ionicConfigProvider.tabs.position('bottom');
             $ionicConfigProvider.form.checkbox('square');
             $ionicConfigProvider.views.transition('none');  //('fade-in')
-              $provide.decorator('$state', function($delegate, $stateParams) {
-                    $delegate.forceReload = function() {
-                        return $delegate.go($delegate.current, $stateParams, {
-                            reload: true,
-                            inherit: false,
-                            notify: true
-                        });
-                    };
-                    return $delegate;
-                });
+            $provide.decorator('$state', function ($delegate, $stateParams) {
+                $delegate.forceReload = function () {
+                    return $delegate.go($delegate.current, $stateParams, {
+                        reload: true,
+                        inherit: false,
+                        notify: true
+                    });
+                };
+                return $delegate;
+            });
             $stateProvider
                     .state('app', {
                         url: '/app',
@@ -177,7 +175,7 @@ angular.module('app', [
                             }
                         }
                     })
-                    
+
                     .state('app.forgotPwd', {
                         url: '/forgotPwd',
                         views: {
@@ -196,7 +194,7 @@ angular.module('app', [
                             }
                         }
                     })
-                    
+
                     .state('app.send_invitation', {
                         url: "/send_invitation",
                         cache: false,
