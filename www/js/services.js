@@ -90,6 +90,7 @@ function Service($rootScope, $http, $ionicPopup,$ionicLoading) {
              buttons: [{
              text: "ok",
              onTap: function () {
+                 $rootScope.hideLoading();
              showError = false;
              }
              }]
