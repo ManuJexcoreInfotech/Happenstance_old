@@ -19,7 +19,12 @@ angular.module('app', [
                     $rootScope.model = device.model;
                     $rootScope.platform = device.platform;
                     $rootScope.uuid = device.uuid;
-                    $rootScope.service.post('mobileRegister', {device_id: device.uuid, device_type: device.manufacturer}, function (res) {
+                    var type= 0;
+                    if(device.platform === "ios")
+                    {
+                        type=1;
+                    }
+                    $rootScope.service.post('mobileRegister', {device_id: device.uuid, device_type: type}, function (res) {
                            console.log(res)
                     });
                 });
