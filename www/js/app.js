@@ -9,23 +9,28 @@ angular.module('app', [
     'app.controllers', 'app.filters', 'ionicLazyLoad', 'slickCarousel'
 ])
 
-        .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup, $ionicHistory, $cordovaDevice) {
+        .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup, $cordovaPush, $cordovaDevice) {
             $ionicPlatform.ready(function ()
             {
                 $rootScope.$apply(function () {
-
+                    
                     var device = $cordovaDevice.getDevice();
-                    $rootScope.manufacturer = device.manufacturer;
-                    $rootScope.model = device.model;
-                    $rootScope.platform = device.platform;
-                    $rootScope.uuid = device.uuid;
-                    var type= 0;
-                    if(device.platform === "ios")
+                    var type = 0;
+                    var user = getStorage('user_id');
+                    var token ='';;
+                    if (device.platform === "ios")
                     {
-                        type=1;
+                        type = 1;
                     }
-                    $rootScope.service.post('mobileRegister', {device_id: device.uuid, device_type: type}, function (res) {
-                           console.log(res)
+                    $cordovaPush.register().then(function (deviceToken) {
+                        // Success -- send deviceToken to server, and store for future use
+                        token = deviceToken
+                       
+                    }, function (err) {
+                        alert("Registration error: " + err)
+                    });
+                    $rootScope.service.post('mobileRegister', {device_id: device.uuid, device_type: type, user_id: user,device_token:token}, function (res) {
+                        console.log(res)
                     });
                 });
 
