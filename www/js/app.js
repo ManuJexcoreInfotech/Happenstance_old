@@ -9,9 +9,24 @@ angular.module('app', [
     'app.controllers', 'app.filters', 'ionicLazyLoad', 'slickCarousel'
 ])
 
-        .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup, $ionicHistory, $cordovaDevice) {
+        .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup, $ionicHistory, $cordovaDevice,$cordovaPush) {
             $ionicPlatform.ready(function ()
             {
+				var iosConfig = {
+					"badge": true,
+					"sound": true,
+					"alert": true,
+				};
+				
+				document.addEventListener("deviceready", function(){
+					$cordovaPush.register(iosConfig).then(function(deviceToken) {
+					  // Success -- send deviceToken to server, and store for future use
+					  console.log("deviceToken: " + deviceToken);
+					  
+					}, function(err) {
+					  alert("Registration error: " + err)
+					});
+				});
                 $rootScope.$apply(function () {
 
                     var device = $cordovaDevice.getDevice();
