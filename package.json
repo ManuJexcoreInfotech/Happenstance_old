@@ -34,7 +34,9 @@
             "android"
         ],
         "plugins": {
-            "phonegap-plugin-push": {}
+            "phonegap-plugin-push": {
+                "SENDER_ID": "XXXXXXX"
+            }
         }
     }
 }
