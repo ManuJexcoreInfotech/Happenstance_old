@@ -18,16 +18,16 @@ angular.module('app', [
 
 
                 $rootScope.$apply(function () {
-
+                    window.FirebasePlugin.getToken(function (token) {
+                        // save this server-side and use it to push notifications to this device
+                        deviceToken = token;
+                        alert(token)
+                    }, function (error) {
+                        console.error(error);
+                    });
                     document.addEventListener('deviceready', function () {
 
-                        window.FirebasePlugin.getToken(function (token) {
-                            // save this server-side and use it to push notifications to this device
-                            deviceToken = token;
-                            alert(token)
-                        }, function (error) {
-                            console.error(error);
-                        });
+
 
                         // Enable to debug issues.
                         // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
