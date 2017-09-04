@@ -22,9 +22,7 @@
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
-    <vs:features>
-        <vs:feature>onesignal-cordova-plugin</vs:feature>
-    </vs:features>
+    
     <platform name="android">
         <resource-file src="resources/android/google-services.json" target="resources/android/google-services.json" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
