@@ -13,18 +13,21 @@ angular.module('app', [
 
             var deviceToken;
             document.addEventListener('deviceready', function () {
+                
+                window.FirebasePlugin.getToken(function (token) {
+                    // save this server-side and use it to push notifications to this device
+                    console.log(token);
+                }, function (error) {
+                    console.error(error);
+                });
+                
                 // Enable to debug issues.
                 // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
 
                 var notificationOpenedCallback = function (jsonData) {
                     console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
                 };
-                window.FirebasePlugin.getToken(function (deviceToken) {
-                    // save this server-side and use it to push notifications to this device
-                    console.log(deviceToken);
-                }, function (error) {
-                    console.error(error);
-                });
+               
                 window.plugins.OneSignal
                         .startInit("895e14fa-b9a6-434d-a8c4-6421ca96bb53")
                         .handleNotificationOpened(notificationOpenedCallback)
