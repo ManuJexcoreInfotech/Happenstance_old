@@ -19,7 +19,6 @@
         "org.apache.cordova.device",
         "org.apache.cordova.console",
         "com.ionic.keyboard",
-        "phonegap-plugin-push",
         "org.apache.cordova.splashscreen",
         "cordova-plugin-whitelist",
         "cordova-plugin-inappbrowser",
