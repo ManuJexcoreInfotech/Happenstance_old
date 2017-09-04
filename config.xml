@@ -24,6 +24,7 @@
     </feature>
     
     <platform name="android">
+		<preference name="android-minSdkVersion" value="19" />
         <resource-file src="resources/android/google-services.json" target="resources/android/google-services.json" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
