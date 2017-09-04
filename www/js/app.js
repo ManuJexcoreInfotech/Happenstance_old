@@ -9,23 +9,38 @@ angular.module('app', [
     'app.controllers', 'app.filters', 'ionicLazyLoad', 'slickCarousel'
 ])
 
-        .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup, $ionicHistory, $cordovaDevice,$cordovaPush) {
+        .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup, $ionicHistory, $cordovaDevice) {
             $ionicPlatform.ready(function ()
             {
-				var iosConfig = {
-					"badge": true,
-					"sound": true,
-					"alert": true,
-				};
-				
-				document.addEventListener("deviceready", function(){
-					$cordovaPush.register(iosConfig).then(function(deviceToken) {
-					  // Success -- send deviceToken to server, and store for future use
-					  console.log("deviceToken: " + deviceToken);
-					  
-					}, function(err) {
-					  alert("Registration error: " + err)
-					});
+				var push = PushNotification.init({
+					android: {
+					},
+					browser: {
+						pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+					},
+					ios: {
+						alert: "true",
+						badge: "true",
+						sound: "true"
+					},
+					windows: {}
+				});
+
+				push.on('registration', function(data) {
+					// data.registrationId
+				});
+
+				push.on('notification', function(data) {
+					// data.message,
+					// data.title,
+					// data.count,
+					// data.sound,
+					// data.image,
+					// data.additionalData
+				});
+
+				push.on('error', function(e) {
+					// e.message
 				});
                 $rootScope.$apply(function () {
 
