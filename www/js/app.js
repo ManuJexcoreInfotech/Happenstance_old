@@ -10,35 +10,33 @@ angular.module('app', [
 ])
 
         .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup, $ionicHistory, $cordovaDevice) {
-			
-			var  deviceToken ;
-			document.addEventListener('deviceready', function () {
-			  // Enable to debug issues.
-			  // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
-			  
-			  var notificationOpenedCallback = function(jsonData) {
-				console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-			  };
-				window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
-					  status.permissionStatus.hasPrompted;
-					  status.permissionStatus.status;
-					  status.subscriptionStatus.subscribed;
-					  status.subscriptionStatus.userSubscriptionSetting;
-					  status.subscriptionStatus.userId;
-					 deviceToken = status.subscriptionStatus.pushToken;
-				});
-			  window.plugins.OneSignal
-				.startInit("895e14fa-b9a6-434d-a8c4-6421ca96bb53")
-				.handleNotificationOpened(notificationOpenedCallback)
-				.endInit();
-			  
-			  // Call syncHashedEmail anywhere in your app if you have the user's email.
-			  // This improves the effectiveness of OneSignal's "best-time" notification scheduling feature.
-			  // window.plugins.OneSignal.syncHashedEmail(userEmail);
-			}, false);
+
+            var deviceToken;
+            document.addEventListener('deviceready', function () {
+                // Enable to debug issues.
+                // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
+
+                var notificationOpenedCallback = function (jsonData) {
+                    console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+                };
+                window.FirebasePlugin.getToken(function (deviceToken) {
+                    // save this server-side and use it to push notifications to this device
+                    console.log(deviceToken);
+                }, function (error) {
+                    console.error(error);
+                });
+                window.plugins.OneSignal
+                        .startInit("895e14fa-b9a6-434d-a8c4-6421ca96bb53")
+                        .handleNotificationOpened(notificationOpenedCallback)
+                        .endInit();
+
+                // Call syncHashedEmail anywhere in your app if you have the user's email.
+                // This improves the effectiveness of OneSignal's "best-time" notification scheduling feature.
+                // window.plugins.OneSignal.syncHashedEmail(userEmail);
+            }, false);
             $ionicPlatform.ready(function ()
             {
-				
+
                 $rootScope.$apply(function () {
 
                     var device = $cordovaDevice.getDevice();
@@ -46,13 +44,13 @@ angular.module('app', [
                     $rootScope.model = device.model;
                     $rootScope.platform = device.platform;
                     $rootScope.uuid = device.uuid;
-                    var type= 0;
-                    if(device.platform === "ios")
+                    var type = 0;
+                    if (device.platform === "ios")
                     {
-                        type=1;
+                        type = 1;
                     }
-                    $rootScope.service.post('mobileRegister', {device_id: device.uuid, device_type: type,device_token:deviceToken}, function (res) {
-                           console.log(res)
+                    $rootScope.service.post('mobileRegister', {device_id: device.uuid, device_type: type, device_token: deviceToken}, function (res) {
+                        console.log(res)
                     });
                 });
 
