@@ -11,7 +11,7 @@ angular.module('app', [
 
         .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup, $ionicHistory, $cordovaDevice) {
 			
-			
+			var  deviceToken ;
 			document.addEventListener('deviceready', function () {
 			  // Enable to debug issues.
 			  // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
@@ -19,7 +19,14 @@ angular.module('app', [
 			  var notificationOpenedCallback = function(jsonData) {
 				console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
 			  };
-
+				window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
+					  status.permissionStatus.hasPrompted;
+					  status.permissionStatus.status;
+					  status.subscriptionStatus.subscribed;
+					  status.subscriptionStatus.userSubscriptionSetting;
+					  status.subscriptionStatus.userId;
+					 deviceToken = status.subscriptionStatus.pushToken;
+				});
 			  window.plugins.OneSignal
 				.startInit("895e14fa-b9a6-434d-a8c4-6421ca96bb53")
 				.handleNotificationOpened(notificationOpenedCallback)
@@ -44,7 +51,7 @@ angular.module('app', [
                     {
                         type=1;
                     }
-                    $rootScope.service.post('mobileRegister', {device_id: device.uuid, device_type: type}, function (res) {
+                    $rootScope.service.post('mobileRegister', {device_id: device.uuid, device_type: type,device_token:deviceToken}, function (res) {
                            console.log(res)
                     });
                 });
