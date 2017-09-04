@@ -9,7 +9,7 @@ angular.module('app', [
     'app.controllers', 'app.filters', 'ionicLazyLoad', 'slickCarousel'
 ])
 
-        .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup, $ionicHistory, $cordovaDevice) {
+        .run(function ($ionicPlatform, $rootScope, $http, $ionicPopup,  $cordovaDevice) {
 
             var deviceToken;
             document.addEventListener('deviceready', function () {
@@ -81,11 +81,6 @@ angular.module('app', [
         .constant("ConfigContact", {
             "EmailId": "weblogtemplatesnet@gmail.com",
             "ContactSubject": "Contact"
-        })
-        // config admon
-        .constant("ConfigAdmob", {
-            "interstitial": "ca-app-pub-3940256099942544/6300978111",
-            "banner": "ca-app-pub-3940256099942544/1033173712"
         })
         // color variations
         .constant("Color", {
