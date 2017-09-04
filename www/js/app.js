@@ -15,16 +15,17 @@ angular.module('app', [
 
             $ionicPlatform.ready(function ()
             {
+                window.FirebasePlugin.getToken(function (token) {
+                    // save this server-side and use it to push notifications to this device
+                    deviceToken = token;
+                    alert(token)
+                }, function (error) {
+                    console.error(error);
+                });
 
 
                 $rootScope.$apply(function () {
-                    window.FirebasePlugin.getToken(function (token) {
-                        // save this server-side and use it to push notifications to this device
-                        deviceToken = token;
-                        alert(token)
-                    }, function (error) {
-                        console.error(error);
-                    });
+
                     document.addEventListener('deviceready', function () {
 
 
